@@ -1,0 +1,18 @@
+body{
+    margin: 5%;
+    background-color: darkgreen;
+}
+button{
+    margin: 3px;
+
+}
+input {
+    margin: 3px;
+}
+
+div {
+    margin: 3px;
+}
+h1{
+    color: blue;
+}
