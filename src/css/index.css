@@ -1,0 +1,29 @@
+body{
+    background: #141E30;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #243B55, #141E30);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #243B55, #141E30); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    padding: 2%;
+    width: auto;
+    height: auto;
+    position: relative;
+}
+#root{
+    border-radius: 15px 15px 15px 15px;
+    -moz-border-radius: 15px 15px 15px 15px;
+    -webkit-border-radius: 15px 15px 15px 15px;
+    border: 0px solid #000000;
+
+
+    
+    -webkit-box-shadow: 0px 0px 40px 0px rgba(0,0,0,0.57);
+    -moz-box-shadow: 0px 0px 40px 0px rgba(0,0,0,0.57);
+    box-shadow: 0px 0px 40px 0px rgba(0,0,0,0.57);
+
+    border-style: solid;
+    height: 100%;
+    width: 100%;
+    background-color:ivory;
+    padding: 1%;
+
+}
