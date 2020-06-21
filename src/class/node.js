@@ -36,7 +36,8 @@ function randomImage() {
 
 class Node {
 
-    constructor(width,height,size){
+    constructor(width,height,size,id){
+        this.id=id;
         this.size=size
         this.x = Math.random() * (width-size-1)+1;
         this.y= Math.random() * (height-size-1)+1;
@@ -44,6 +45,13 @@ class Node {
         this.dy = (Math.random() - 0.5) * 0.5; 
         this.icon = new Image();
         this.icon.src =randomImage()//"https://img.icons8.com/color/144/000000/rick-sanchez.png";//'https://img.icons8.com/plasticine/100/000000/electronics.png';
+
+        this.ram = Math.floor(Math.random() * 64);
+        this.cpu = Math.floor(Math.random() *8);
+        this.hz = 4.3;
+        this.hhd = 500;
+
+
     }
 
     get image(){
@@ -65,6 +73,22 @@ class Node {
         this.x += this.dx;
         this.y += this.dy;
         this.draw(ctx);
+    }
+    getX(){
+        return this.x;
+    }
+    getY(){
+        return this.y;
+    }
+    getId(){
+        return this.id;
+    }
+    getCoordinates(){
+        return [this.x+(this.size/2),this.y+(this.size/2)];
+    }
+
+    toString(){
+        return "Cpu: " +this.cpu+"\nVelocidad: "+this.hz+"Hz"+"\nRam: "+this.ram+"GB" + "\nDisco: "+this.hhd+"GB";
     }
    
 }
