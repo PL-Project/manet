@@ -190,6 +190,7 @@ class Node {
         
 
         //properties
+        this.participation = Math.random() >= 0.5;
         this.ram = randomRAM()
         this.cpu = randomCPU()
         this.hz = randomHZ();

@@ -8,14 +8,14 @@ import link from '../class/link';
 import PCmessages from '../images/PCmessages.png'
 
 
-class Manet extends React.Component{
+class Manet extends React.Component {
 
     constructor(props) {
         super(props);
         this.map = new Image();
-        this.map.src= map
-        
-        this.init= this.init.bind(this);
+        this.map.src = map
+
+        this.init = this.init.bind(this);
         this.clear = this.clear.bind(this);
         this.start = this.start.bind(this);
         this.animate = this.animate.bind(this);
@@ -26,134 +26,140 @@ class Manet extends React.Component{
         this.updateReceptor = this.updateReceptor.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
 
-        this.state={
+        this.state = {
             width: Number,
             height: Number,
             nodeArray: [],
             linkArray: [],
-            canvas:[],
-            reqAnimation:0,
+            canvas: [],
+            reqAnimation: 0,
             On: false,
-            emisor:'',
+            emisor: '',
             receptor: ''
-            
+
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.setState({
-            canvas : document.getElementById('manet').getContext('2d')
+            canvas: document.getElementById('manet').getContext('2d')
         })
-        
+
         const canvas = this.refs.canvas
         this.setState({
-            width : canvas.width,
-            height : canvas.height,
+            width: canvas.width,
+            height: canvas.height,
         })
-        
-        console.log("ancho: "+this.state.width +" alto: "+this.state.height)
-        this.map.onload=()=>{
-            this.state.canvas.drawImage(this.map,0,0,this.state.width,this.state.height)
+
+        console.log("ancho: " + this.state.width + " alto: " + this.state.height)
+        this.map.onload = () => {
+            this.state.canvas.drawImage(this.map, 0, 0, this.state.width, this.state.height)
         }
 
 
     }
 
-    start(){
-        if(this.state.On){
+    start() {
+        if (this.state.On) {
             this.clear()
             this.start()
-        }else{
-            this.state.On=true
+        } else {
+            this.state.On = true
             this.init()
             this.animate()
         }
     }
-    clear(){
-        this.state.canvas.clearRect(0,0,this.state.width,this.state.height)
+
+    clear() {
+        this.state.canvas.clearRect(0, 0, this.state.width, this.state.height)
         window.cancelAnimationFrame(this.state.reqAnimation)
         this.state.On = false
-        this.state.nodeArray=[]
-        this.state.emisor=""
-        this.state.receptor=""
-        this.state.canvas.drawImage(this.map,0,0,this.state.width,this.state.height)
+        this.state.nodeArray = []
+        this.state.emisor = ""
+        this.state.receptor = ""
+        this.state.canvas.drawImage(this.map, 0, 0, this.state.width, this.state.height)
         this.setState({
             //obligo a actualizar las listas
         })
     }
-    init () {
-        let numNodes= Math.floor(Math.abs(this.refs.numNodes.value))
-        this.state.nodeArray=[]
-        let nodos= []
+
+    init() {
+        let numNodes = Math.floor(Math.abs(this.refs.numNodes.value))
+        this.state.nodeArray = []
+        let nodos = []
         for (var i = 0; i < numNodes; i++) {
-            let width =this.state.width;
+            let width = this.state.width;
             let height = this.state.height;
-            nodos.push(new Node(width,height,300/this.scale(numNodes),i));
+            nodos.push(new Node(width, height, 300 / this.scale(numNodes), i));
         }
 
-        this.state.nodeArray =nodos
+        this.state.nodeArray = nodos
         this.setState({
             //obligo a actualizar las listas
         })
-        
+
     }
-    animate(){
-        this.state.canvas.clearRect(0,0,this.state.width,this.state.height)
-        this.state.canvas.drawImage(this.map,0,0,this.state.width,this.state.height)
-        
+
+    animate() {
+        this.state.canvas.clearRect(0, 0, this.state.width, this.state.height)
+        this.state.canvas.drawImage(this.map, 0, 0, this.state.width, this.state.height)
+
         for (var i = 0; i < this.state.nodeArray.length; i++) {
             let node = this.state.nodeArray[i];
-            node.update(this.state.canvas,this.state.width,this.state.height)
+            node.update(this.state.canvas, this.state.width, this.state.height)
         }
 
         this.createLinks();
 
         for (var i = 0; i < this.state.linkArray.length; i++) {
             let link = this.state.linkArray[i];
-            link.update(this.state.canvas,this.getNodebyID(link.getId1()).getCoordinates(),this.getNodebyID(link.getId2()).getCoordinates())
+            link.update(this.state.canvas, this.getNodebyID(link.getId1()).getCoordinates(), this.getNodebyID(link.getId2()).getCoordinates())
         }
 
-        this.state.reqAnimation=window.requestAnimationFrame(this.animate);
-        
+        this.state.reqAnimation = window.requestAnimationFrame(this.animate);
+
     }
-    scale(n){
-        if(n<=3){
+
+    scale(n) {
+        if (n <= 3) {
             return 1
-        }else{
+        } else {
             return Math.log(n)
         }
     }
 
     createLinks() {
         let linkArray = [];
-        let nodeArray=this.state.nodeArray;
+        let nodeArray = this.state.nodeArray;
 
         for (let i = 0; i < nodeArray.length; i++) {
-    
-            for(let j = 0; j < nodeArray.length; j++){
-    
-                if(nodeArray[i].getId()!=nodeArray[j].getId()){
-    
-                    let distance= Math.sqrt(Math.pow(nodeArray[i].getX()-nodeArray[j].getX(),2)+Math.pow(nodeArray[i].getY()-nodeArray[j].getY(),2));
-                    if(distance<80){
-                        linkArray.push(new Link(nodeArray[i],nodeArray[j]));
+
+            for (let j = 0; j < nodeArray.length; j++) {
+
+                if (nodeArray[i].getId() != nodeArray[j].getId()) {
+
+                    let distance = Math.sqrt(Math.pow(nodeArray[i].getX() - nodeArray[j].getX(), 2) + Math.pow(nodeArray[i].getY() - nodeArray[j].getY(), 2));
+                    if (distance < 80) {
+                        linkArray.push(new Link(nodeArray[i], nodeArray[j]));
                     }
                 }
-    
+
             }
-            
+
         }
         this.state.linkArray = linkArray
-        
+
     }
-    getNodebyID(id){
+
+    getNodebyID(id) {
         for (let i = 0; i < this.state.nodeArray.length; i++) {
-            if(id==this.state.nodeArray[i].getId()){
+            if (id == this.state.nodeArray[i].getId()) {
                 return this.state.nodeArray[i]
             }
         }
     }
-    updateEmisor(id){
+
+    updateEmisor(id) {
 
         let node = this.getNodebyID(id);
 
@@ -161,7 +167,8 @@ class Manet extends React.Component{
             emisor: node.toString()
         })
     }
-    updateReceptor(id){
+
+    updateReceptor(id) {
 
         let node = this.getNodebyID(id);
 
@@ -170,11 +177,12 @@ class Manet extends React.Component{
         })
     }
 
-    sendMessage(){
+    sendMessage() {
         alert("enviando msj...");
     }
-    render(){
-        return(
+
+    render() {
+        return (
             <div id="big" className="row">
                 <div id="simulador" className="card">
                     <h4 className="card-header">SIMULADOR LENG2020-1 GRP3 </h4>
@@ -183,53 +191,66 @@ class Manet extends React.Component{
                     </div>
                     <div id="footercard" className="card-footer">
                         <div className="row">
-                            <input  className="col-sm-3 form-control" ref="numNodes" type="number" placeholder="# Nodos" min="1" max="500" />
-                            <button type="button" className="btn col-sm-3 btn-primary " onClickCapture={this.start}>Animar</button>
-                            <button type="button" className="btn col-sm-3 btn-primary " onClickCapture={this.clear}>Limpiar</button>
+                            <input className="col-sm-3 form-control" ref="numNodes" type="number" placeholder="# Nodos"
+                                   min="1" max="500"/>
+                            <button type="button" className="btn col-sm-3 btn-primary "
+                                    onClickCapture={this.start}>Animar
+                            </button>
+                            <button type="button" className="btn col-sm-3 btn-primary "
+                                    onClickCapture={this.clear}>Limpiar
+                            </button>
                         </div>
                     </div>
-                </div> 
+                </div>
 
                 <div id="mensajes" className="card">
                     <h5 className="card-header">MENSAJES</h5>
                     <div id="bodymensaje" className="card-body">
-                        <div id="emisor" className="cardpersonalizada" >
+                        <div id="emisor" className="cardpersonalizada">
                             <h6>EMISOR</h6>
                             <div className="row">
                                 <img src={PCmessages} className="column imagenpersonalizada"/>
-                                <label className="column labelpersonalizada" ref="emisorINFO" >{this.state.emisor}</label>
+                                <label className="column labelpersonalizada"
+                                       ref="emisorINFO">{this.state.emisor}</label>
                             </div>
-                            <select ref="emisorSelect" type="select" className="form-control" onChange={(e)=>this.updateEmisor(e.target.value)}> 
-                                {this.state.nodeArray.map((node, key) => { return <option key={node.getId()} value={node.getId()} >Nodo {node.getId()}</option>; })} 
+                            <select ref="emisorSelect" type="select" className="form-control"
+                                    onChange={(e) => this.updateEmisor(e.target.value)}>
+                                {this.state.nodeArray.map((node, key) => {
+                                    return <option key={node.getId()} value={node.getId()}>Nodo {node.getId()}</option>;
+                                })}
                             </select>
                         </div>
 
-                        <div id="receptor" className="cardpersonalizada" >
+                        <div id="receptor" className="cardpersonalizada">
                             <h6>RECEPTOR</h6>
                             <div className="row">
                                 <img src={PCmessages} className="column imagenpersonalizada"/>
-                                <label className="column labelpersonalizada" ref="emisorINFO" >{this.state.receptor}</label>
+                                <label className="column labelpersonalizada"
+                                       ref="emisorINFO">{this.state.receptor}</label>
                             </div>
-                            <select ref="receptorSelect" type="select" className="form-control" onChange={(e)=>this.updateReceptor(e.target.value)}> 
-                                {this.state.nodeArray.map((node, key) => { return <option key={node.getId()} value={node.getId()} >Nodo {node.getId()}</option>; })} 
+                            <select ref="receptorSelect" type="select" className="form-control"
+                                    onChange={(e) => this.updateReceptor(e.target.value)}>
+                                {this.state.nodeArray.map((node, key) => {
+                                    return <option key={node.getId()} value={node.getId()}>Nodo {node.getId()}</option>;
+                                })}
                             </select>
                         </div>
 
 
-                        
                     </div>
                     <div id="piemsj" className="card-footer">
-                        <button id="enviarmsj"type="button" className="btn col-sm-3 btn-primary" onClick={this.sendMessage}>Enviar</button>
+                        <button id="enviarmsj" type="button" className="btn col-sm-3 btn-primary"
+                                onClick={this.sendMessage}>Enviar
+                        </button>
                     </div>
                 </div>
             </div>
 
 
-            
         )
     }
 
-    
+
 }
 
 export default Manet
