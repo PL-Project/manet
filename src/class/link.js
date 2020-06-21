@@ -20,8 +20,8 @@ class link {
         this.draw(ctx);
     }
     draw(ctx){
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = "#f00";
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "green";
         ctx.beginPath();
         ctx.moveTo(this.p1[0],this.p1[1]);
         ctx.lineTo(this.p2[0],this.p2[1]);

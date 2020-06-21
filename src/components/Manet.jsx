@@ -88,7 +88,7 @@ class Manet extends React.Component{
         for (var i = 0; i < numNodes; i++) {
             let width =this.state.width;
             let height = this.state.height;
-            nodos.push(new Node(width,height,100/this.scale(numNodes),i));
+            nodos.push(new Node(width,height,300/this.scale(numNodes),i));
         }
 
         this.state.nodeArray =nodos
@@ -179,11 +179,11 @@ class Manet extends React.Component{
                 <div id="simulador" className="card">
                     <h4 className="card-header">SIMULADOR LENG2020-1 GRP3 </h4>
                     <div id="bodycard" className="card-boddy">
-                        <canvas id="manet" ref="canvas"></canvas>
+                        <canvas id="manet" ref="canvas" width="1920" height="1080"></canvas>
                     </div>
                     <div id="footercard" className="card-footer">
                         <div className="row">
-                            <input  className="col-sm-3 form-control" ref="numNodes" type="number" placeholder="# Nodos" min="1" max="100" />
+                            <input  className="col-sm-3 form-control" ref="numNodes" type="number" placeholder="# Nodos" min="1" max="500" />
                             <button type="button" className="btn col-sm-3 btn-primary " onClickCapture={this.start}>Animar</button>
                             <button type="button" className="btn col-sm-3 btn-primary " onClickCapture={this.clear}>Limpiar</button>
                         </div>
