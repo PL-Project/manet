@@ -92,17 +92,35 @@ class PrincipalCpu extends React.Component {
                     <div id="bodymensaje" className="card-body">
                         <div id="emisor" className="cardpersonalizada">
                             <h6>Escribe el comando a ejecutar</h6>
-                            <input
-                                type="text"
-                            />
-                            <input
-                                type="text"
-                            />
-                            <input
-                                type="text"
-                            />
-                            <div className="row">
-                            </div>
+                                <div className="row">
+                                    <input
+                                    type="text"
+                                    />
+                                </div>
+                                <div className="row">
+                                    <p>Parametro 1</p>
+                                    <input
+                                    type="text"
+                                    />
+                                </div>
+                                <div className="row">
+                                    <p>Parametro 2</p>
+                                    <input
+                                    type="text"
+                                    />
+                                </div>
+                                <div className="row">
+                                    <p>Parametro 3</p>
+                                    <input
+                                    type="text"
+                                    />
+                                </div>
+                                <div className="row">
+                                    <p>Parametro 4</p>
+                                    <input
+                                    type="text"
+                                    />
+                                </div>
                         </div>
                         <div id="receptor" className="cardpersonalizada">
                             <h6>Resultado de la instruccion</h6>
