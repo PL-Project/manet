@@ -135,7 +135,7 @@ class Manet extends React.Component{
                 if(nodeArray[i].getId()!=nodeArray[j].getId()){
     
                     let distance= Math.sqrt(Math.pow(nodeArray[i].getX()-nodeArray[j].getX(),2)+Math.pow(nodeArray[i].getY()-nodeArray[j].getY(),2));
-                    if(distance<50){
+                    if(distance<80){
                         linkArray.push(new Link(nodeArray[i],nodeArray[j]));
                     }
                 }

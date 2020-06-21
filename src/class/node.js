@@ -1,36 +1,180 @@
-import amd from '../images/amd.png'
-import hp from '../images/hp.png'
-import iphone from '../images/iphone.png'
-import linux from '../images/linux.png'
-import mac from '../images/mac.png'
-import win_pc from '../images/win-pc.png'
-import win_phone from '../images/win-phone.png'
+import AMD from '../images/Makers/AMD.png'
+import DELL from '../images/Makers/DELL.PNG'
+import INTEL from '../images/Makers/INTEL.png'
+import QUALCOMM from '../images/Makers/QUALCOMM.png'
 
-function randomImage() {
-    let select = Math.floor(Math.random()*7)
+
+function randomRAM() {
+    return Math.floor(Math.random() * 64);
+}
+function randomHHD() {
+    let select = Math.floor(Math.random()*10)
     switch (select) {
         case 0:
-            return amd
+            return 50
             break;
         case 1:
-            return hp
+            return 100
             break;
         case 2:
-            return iphone
+            return 150
             break;
         case 3:
-            return mac
+            return 200
             break;
         case 4:
-            return win_pc
+            return 300
             break;
         case 5:
-            return win_phone
+            return 500
             break;
         case 6:
-            return linux
+            return 1000
             break;
-
+        case 7:
+            return 2000
+            break;
+        case 8:
+            return 5000
+            break;
+        case 9:
+            return 800
+            break;
+    }
+}
+function randomCPU() {
+    return Math.floor(Math.random() *8);
+}
+function randomHZ() {
+    let select = Math.floor(Math.random()*10)
+    switch (select) {
+        case 0:
+            return 1.5
+            break;
+        case 1:
+            return 2.3
+            break;
+        case 2:
+            return 3.1
+            break;
+        case 3:
+            return 3.0
+            break;
+        case 4:
+            return 4.0
+            break;
+        case 5:
+            return 4.1
+            break;
+        case 6:
+            return 4.3
+            break;
+        case 7:
+            return 2.5
+            break;
+        case 8:
+            return 1.1
+            break;
+        case 9:
+            return 2.0
+            break;
+    }
+}
+function randomMAKER() {
+    let select = Math.floor(Math.random()*4)
+    switch (select) {
+        case 0:
+            return "AMD"
+            break;
+        case 1:
+            return "INTEL"
+            break;
+        case 2:
+            return "QUALCOMM"
+            break;
+        case 3:
+            return "DELL"
+            break;
+    }
+}
+function Instructions(maker) {
+    switch (maker) {
+        case "AMD":
+            return [
+                "Move",
+                "Store",
+                "Load",
+                "Add",
+                "multiply",
+                "Substract",
+                "compare",
+                "NAND",
+                "NOR",
+                "Shift",
+                "jmpnz",
+                "halt"
+            ]
+            break;
+        case "INTEL":
+            return [
+                "Move",
+                "Store",
+                "Load",
+                "Add",
+                "divide",
+                "Substract",
+                "compare",
+                "NOT",
+                "AND",
+                "OR",
+                "jmpg",
+                "wait",
+                
+            ]
+            break;
+        case "QUALCOMM":
+            return [
+                "Move",
+                "Store",
+                "Load",
+                "Substract",
+                "divide",
+                "zero test",
+                "NOT",
+                "AND",
+                "XOR",
+                "jmp"
+            ]
+            break;
+        case "DELL":
+            return [
+                "Move",
+                "Add",
+                "Store",
+                "Load",
+                "Substract",
+                "Move multiple",
+                "Push",
+                "Pop",
+                "Multiply"
+            ]
+            break;
+    }
+}
+function randomImage(maker) {
+    switch (maker) {
+        case "AMD":
+            return AMD;
+            break;
+        case "INTEL":
+            return INTEL;
+            break;
+        case "QUALCOMM":
+            return QUALCOMM;
+            break;
+        case "DELL":
+            return DELL;
+            break;
     }
 }
 
@@ -43,14 +187,20 @@ class Node {
         this.y= Math.random() * (height-size-1)+1;
         this.dx = (Math.random() - 0.5) * 0.5;
         this.dy = (Math.random() - 0.5) * 0.5; 
+        
+
+        //properties
+        this.ram = randomRAM()
+        this.cpu = randomCPU()
+        this.hz = randomHZ();
+        this.hhd = randomHHD()
+        //fabricante
+        this.maker = randomMAKER()
+        this.instructions = Instructions(this.maker)
+        
+        //maker --> image
         this.icon = new Image();
-        this.icon.src =randomImage()//"https://img.icons8.com/color/144/000000/rick-sanchez.png";//'https://img.icons8.com/plasticine/100/000000/electronics.png';
-
-        this.ram = Math.floor(Math.random() * 64);
-        this.cpu = Math.floor(Math.random() *8);
-        this.hz = 4.3;
-        this.hhd = 500;
-
+        this.icon.src =randomImage(this.maker)
 
     }
 
