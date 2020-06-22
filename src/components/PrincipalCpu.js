@@ -5,6 +5,11 @@ import '../css/principalCpu.css'
 class PrincipalCpu extends React.Component {
     constructor(props) {
         super(props);
+        this.consoleCommand = "";
+        this.param1 = "";
+        this.param2 = "";
+        this.param3 = "";
+        this.param4 = "";
     }
 
     // this.ram = randomRAM()
@@ -16,7 +21,12 @@ class PrincipalCpu extends React.Component {
         ram: Number,
         cpu: Number,
         hz: Number,
-        hhd: Number
+        hhd: Number,
+        command: "",
+        value1: Number,
+        value2: Number,
+        newVal: "",
+        output: ""
     }
 
     async componentDidMount() {
@@ -65,8 +75,62 @@ class PrincipalCpu extends React.Component {
             }
         }
     }
-    z(){
 
+    handleCommand(value) {
+        this.consoleCommand = value;
+        console.log(this.consoleCommand);
+        if (this.consoleCommand.toString() == "add") {
+            this.setState(
+                {
+                    output: "hi teacher"
+                }
+            )
+        } else {
+            this.setState(
+                {
+                    output: ""
+                }
+            )
+        }
+    }
+
+    handleParam1(value) {
+        this.param1 = value;
+        console.log(this.param1);
+    }
+
+    handleParam2(value) {
+        this.param2 = value;
+        console.log(this.param2);
+    }
+
+    handleParam3(value) {
+        this.param3 = value;
+        console.log(this.param3);
+    }
+
+    handleParam4(value) {
+        this.param4 = value;
+        console.log(this.param4);
+    }
+    handleInstruction(){
+        console.log(this.consoleCommand.toString());
+        if(this.consoleCommand.toString() == "add"){
+            var total = this.add(this.param1, this.param2);
+            total = total.toString();
+            this.setState({
+                newVal : total
+            })
+        }
+    }
+    add(val, val2) {
+        var suma = val + val2;
+        suma = suma.toString();
+        this.setState(
+            {
+                output: suma
+            }
+        )
     }
 
     render() {
@@ -92,40 +156,52 @@ class PrincipalCpu extends React.Component {
                     <div id="bodymensaje" className="card-body">
                         <div id="emisor" className="cardpersonalizada">
                             <h6>Escribe el comando a ejecutar</h6>
-                                <div className="row">
-                                    <input
+                            <div className="row">
+                                <input
                                     type="text"
-                                    />
-                                </div>
-                                <div className="row">
-                                    <p>Parametro 1</p>
-                                    <input
+                                    onChange={(e) => this.handleCommand(e.target.value)}
+                                />
+                            </div>
+                            <div className="row">
+                                <p>Parametro 1</p>
+                                <input
                                     type="text"
-                                    />
-                                </div>
-                                <div className="row">
-                                    <p>Parametro 2</p>
-                                    <input
+                                    onChange={(e) => this.handleParam1(e.target.value)}
+                                />
+                            </div>
+                            <div className="row">
+                                <p>Parametro 2</p>
+                                <input
                                     type="text"
-                                    />
-                                </div>
-                                <div className="row">
-                                    <p>Parametro 3</p>
-                                    <input
+                                    onChange={(e) => this.handleParam2(e.target.value)}
+                                />
+                            </div>
+                            <div className="row">
+                                <p>Parametro 3</p>
+                                <input
                                     type="text"
-                                    />
-                                </div>
-                                <div className="row">
-                                    <p>Parametro 4</p>
-                                    <input
+                                    onChange={(e) => this.handleParam3(e.target.value)}/>
+                            </div>
+                            <div className="row">
+                                <p>Parametro 4</p>
+                                <input
                                     type="text"
-                                    />
-                                </div>
+                                    onChange={(e) => this.handleParam4(e.target.value)}/>
+                            </div>
+                            <div className="row">
+                                <button onClick={this.handleInstruction}>Click Here</button>
+                            </div>
+
                         </div>
                         <div id="receptor" className="cardpersonalizada">
                             <h6>Resultado de la instruccion</h6>
                             <div className="row">
-
+                                <p>{this.state.command}</p>
+                                <p>{this.state.output}</p>
+                                <h6>Resultado</h6>
+                                <h6>{this.param1}</h6>
+                                <h6>{this.state.newVal}</h6>
+                                <h6>{this.consoleCommand}</h6>
                             </div>
                         </div>
 
@@ -141,18 +217,3 @@ class PrincipalCpu extends React.Component {
 }
 
 export default PrincipalCpu;
-
-// <form>
-//     <div className="form-group">
-//         <h1>Principal CPU</h1>
-//
-//         <h1>RAM</h1>
-//         <p>{this.state.ram}</p>
-//         <h1>Cpu</h1>
-//         <p>{this.state.cpu}</p>
-//         <h1>Hhd</h1>
-//         <p>{this.state.hhd}</p>
-//         <h1>Processor Speed</h1>
-//         <p>{this.state.hz}</p>
-//     </div>
-// </form>
