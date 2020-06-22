@@ -1,13 +1,15 @@
 import React from 'react';
-import Node from '../class/node'
-import Link from '../class/link'
-import Message from '../class/message'
-import '../css/manet.css'
-import map from '../images/map3.jpg'
+import Node from '../class/node';
+import {Link as Linking} from 'react-router-dom';
+import Message from '../class/message';
+import '../css/manet.css';
+import map from '../images/map3.jpg';
+
+import PCmessages from '../images/PCmessages.png';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
+import PrincipalCpu from "./PrincipalCpu";
 import link from '../class/link';
-import PCmessages from '../images/PCmessages.png'
-
-
+import Link from '../class/link';
 class Manet extends React.Component {
 
     constructor(props) {
@@ -183,6 +185,7 @@ class Manet extends React.Component {
 
     render() {
         return (
+
             <div id="big" className="row">
                 <div id="simulador" className="card">
                     <h4 className="card-header">SIMULADOR LENG2020-1 GRP3 </h4>
@@ -199,6 +202,9 @@ class Manet extends React.Component {
                             <button type="button" className="btn col-sm-3 btn-primary "
                                     onClickCapture={this.clear}>Limpiar
                             </button>
+                            <Linking type="onClick" className="btn col-sm-3 btn-primary"
+                                  to={{pathname:'/MainCpu', state:{test: "hola"}}}>MainCpu </Linking>
+
                         </div>
                     </div>
                 </div>
@@ -254,3 +260,4 @@ class Manet extends React.Component {
 }
 
 export default Manet
+// to={{pathname:'/MainCpu', state:{nodeArray: this.state.nodeArray}}}>MainCpu </Linking>

@@ -10,6 +10,8 @@ class PrincipalCpu extends React.Component {
         this.param2 = "";
         this.param3 = "";
         this.param4 = "";
+        this.test =this.props.location.state.test;
+        this.nodes = this.props.location.state.nodeArray;
     }
 
     // this.ram = randomRAM()
@@ -17,7 +19,7 @@ class PrincipalCpu extends React.Component {
     // this.hz = randomHZ();
     // this.hhd = randomHHD()
     state = {
-        nodes: [],
+        nodes:  [],
         ram: Number,
         cpu: Number,
         hz: Number,
@@ -35,9 +37,12 @@ class PrincipalCpu extends React.Component {
         for (var i = 0; i < numNodes; i++) {
             let width = 500;
             let height = 500;
-            this.state.nodes.push(new Node(width, height, 100 / 2));
-        }
 
+            // this.state.nodes.push(new Node(width, height, 100 / 2));
+        }
+        this.setState({
+            nodes : this.nodes
+        })
         var i;
         // this.ram = randomRAM()
         // this.cpu = randomCPU()
@@ -78,20 +83,23 @@ class PrincipalCpu extends React.Component {
 
     handleCommand(value) {
         this.consoleCommand = value;
+        console.log("this.consoleCommand");
+        console.log(this.test);
+        console.log("this.consoleCommand");
         console.log(this.consoleCommand);
-        if (this.consoleCommand.toString() == "add") {
-            this.setState(
-                {
-                    output: "hi teacher"
-                }
-            )
-        } else {
-            this.setState(
-                {
-                    output: ""
-                }
-            )
-        }
+        // if (this.consoleCommand.toString() == "add") {
+        //     this.setState(
+        //         {
+        //             output: "hi teacher"
+        //         }
+        //     )
+        // } else {
+        //     this.setState(
+        //         {
+        //             output: ""
+        //         }
+        //     )
+        // }
     }
 
     handleParam1(value) {
@@ -123,7 +131,7 @@ class PrincipalCpu extends React.Component {
 
 
             this.setState({
-                 newVal : total
+                 output : total
             })
         }
     }
@@ -135,6 +143,7 @@ class PrincipalCpu extends React.Component {
     render() {
         return (
             <div id="big" className="row">
+
                 <div id="specificationBox" className="card">
                     <h4 className="card-header">CPU Principal</h4>
                     <div id="bodycard" className="card-boddy">
@@ -154,54 +163,53 @@ class PrincipalCpu extends React.Component {
                     <h5 className="card-header">Consola</h5>
                     <div id="bodymensaje" className="card-body">
                         <div id="emisor" className="cardpersonalizada">
-                            <h6>Escribe el comando a ejecutar</h6>
-                            <div className="row">
-                                <input
-                                    type="text"
-                                    onChange={(e) => this.handleCommand(e.target.value)}
-                                />
-                            </div>
-                            <div className="row">
-                                <p>Parametro 1</p>
-                                <input
-                                    type="text"
-                                    onChange={(e) => this.handleParam1(e.target.value)}
-                                />
-                            </div>
-                            <div className="row">
-                                <p>Parametro 2</p>
-                                <input
-                                    type="text"
-                                    onChange={(e) => this.handleParam2(e.target.value)}
-                                />
-                            </div>
-                            <div className="row">
-                                <p>Parametro 3</p>
-                                <input
-                                    type="text"
-                                    onChange={(e) => this.handleParam3(e.target.value)}/>
-                            </div>
-                            <div className="row">
-                                <p>Parametro 4</p>
-                                <input
-                                    type="text"
-                                    onChange={(e) => this.handleParam4(e.target.value)}/>
-                            </div>
-                            <div className="row">
-                                <button onClick={(e) => this.handleInstruction()}>Click Here</button>
-                            </div>
+                            <form action="/action_page.php">
+                                <h6>Escribe el comando a ejecutar</h6>
+                                <div className="row">
+                                    <input
+                                        type="text"
+                                        onChange={(e) => this.handleCommand(e.target.value)}
+                                    />
+                                    <button type="button" className="btn col-sm-3 btn-primary "
+                                            onClick={(e) => this.handleInstruction()}>Run</button>
+                                </div>
+                                <div className="row">
+                                    <p>Parametro 1     </p>
+                                    <input
+                                        type="text"
+                                        onChange={(e) => this.handleParam1(e.target.value)}
+                                    />
+                                </div>
+                                <div className="row">
+                                    <p>Parametro 2     </p>
+                                    <input
+                                        type="text"
+                                        onChange={(e) => this.handleParam2(e.target.value)}
+                                    />
+                                </div>
+                                <div className="row">
+                                    <p>Parametro 3     </p>
+                                    <input
+                                        type="text"
+                                        onChange={(e) => this.handleParam3(e.target.value)}/>
+                                </div>
+                                <div className="row">
+                                    <p>Parametro 4     </p>
+                                    <input
+                                        type="text"
+                                        onChange={(e) => this.handleParam4(e.target.value)}/>
+                                </div>
+
+                                <button type="reset" className="btn col-sm-3 btn-primary " onClick="ClearFields();">Clear</button>
+                            </form>
+
 
                         </div>
                         <div id="receptor" className="cardpersonalizada">
-                            <h6>Resultado de la instruccion</h6>
-                            <div className="row">
-                                <p>{this.state.command}</p>
-                                <p>{this.state.output}</p>
-                                <h6>Resultado</h6>
-                                <h6>{this.param1}</h6>
-                                <h6>Resultado Final</h6>
-                                <h6>{this.state.newVal}</h6>
-                                <h6>{this.consoleCommand}</h6>
+                            <h1>Resultado de la instruccion</h1>
+                            <div className="column">
+                                <p><b>instruccion realizada:</b> {this.consoleCommand}</p>
+                                <p><b>resultado:</b> {this.state.output}</p>
                             </div>
                         </div>
 
