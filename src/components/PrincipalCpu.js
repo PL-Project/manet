@@ -50,7 +50,7 @@ class PrincipalCpu extends React.Component {
         if (this.state.nodes.length > 0) {
             for (i = 0; i < this.state.nodes.length; i++) {
                 if (this.state.nodes[i].participation == 1) {
-                    console.log(this.state.nodes[i].participation)
+
                     totalRam += this.state.nodes[i].ram;
                     totalCpu += this.state.nodes[i].cpu;
                     totalHz += this.state.nodes[i].hz;
@@ -96,42 +96,41 @@ class PrincipalCpu extends React.Component {
 
     handleParam1(value) {
         this.param1 = value;
-        console.log(this.param1);
+
     }
 
     handleParam2(value) {
         this.param2 = value;
-        console.log(this.param2);
+
     }
 
     handleParam3(value) {
         this.param3 = value;
-        console.log(this.param3);
+
     }
 
     handleParam4(value) {
         this.param4 = value;
-        console.log(this.param4);
+
     }
     handleInstruction(){
-        console.log(this.consoleCommand.toString());
+        console.log(this.consoleCommand);
         if(this.consoleCommand.toString() == "add"){
-            var total = this.add(this.param1, this.param2);
-            total = total.toString();
+            console.log(this.param1);
+            console.log(this.param2);
+            var total = this.add(parseInt(this.param1), parseInt(this.param2));
+            console.log(total);
+
+
             this.setState({
-                newVal : total
+                 newVal : total
             })
         }
     }
     add(val, val2) {
-        var suma = val + val2;
-        suma = suma.toString();
-        this.setState(
-            {
-                output: suma
-            }
-        )
+        return val + val2;
     }
+
 
     render() {
         return (
@@ -189,7 +188,7 @@ class PrincipalCpu extends React.Component {
                                     onChange={(e) => this.handleParam4(e.target.value)}/>
                             </div>
                             <div className="row">
-                                <button onClick={this.handleInstruction}>Click Here</button>
+                                <button onClick={(e) => this.handleInstruction()}>Click Here</button>
                             </div>
 
                         </div>
@@ -200,6 +199,7 @@ class PrincipalCpu extends React.Component {
                                 <p>{this.state.output}</p>
                                 <h6>Resultado</h6>
                                 <h6>{this.param1}</h6>
+                                <h6>Resultado Final</h6>
                                 <h6>{this.state.newVal}</h6>
                                 <h6>{this.consoleCommand}</h6>
                             </div>
