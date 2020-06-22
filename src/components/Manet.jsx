@@ -32,6 +32,10 @@ class Manet extends React.Component {
             width: Number,
             height: Number,
             nodeArray: [],
+            TotalRAM : 0,
+            Totalcpu : 0,
+            Totalhz : 0,
+            Totalhhd : 0,
             linkArray: [],
             canvas: [],
             reqAnimation: 0,
@@ -93,6 +97,12 @@ class Manet extends React.Component {
             let width = this.state.width;
             let height = this.state.height;
             nodos.push(new Node(width, height, 300 / this.scale(numNodes), i));
+            if(nodos[i].participation == true){
+                this.state.TotalRAM += nodos[i].ram;
+                this.state.Totalcpu += nodos[i].cpu;
+                this.state.Totalhhd += nodos[i].hhd;
+                this.state.Totalhz += nodos[i].hz;
+            }
         }
 
         this.state.nodeArray = nodos
@@ -203,7 +213,17 @@ class Manet extends React.Component {
                                     onClickCapture={this.clear}>Limpiar
                             </button>
                             <Linking type="onClick" className="btn col-sm-3 btn-primary"
-                                  to={{pathname:'/MainCpu', state:{test: "hola"}}}>MainCpu </Linking>
+                                to={{
+                                    pathname:'/MainCpu',
+                                    state:{
+                                        NumberOfNodes : this.state.nodeArray.length,
+                                        RAM: this.state.TotalRAM,
+                                        cpu: this.state.Totalcpu,
+                                        Hhd: this.state.Totalhhd,
+                                        hz: this.state.Totalhz
+                                    }
+                                
+                                }}>MainCpu </Linking>
 
                         </div>
                     </div>

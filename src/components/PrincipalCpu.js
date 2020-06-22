@@ -10,8 +10,8 @@ class PrincipalCpu extends React.Component {
         this.param2 = "";
         this.param3 = "";
         this.param4 = "";
-        this.test =this.props.location.state.test;
-        this.nodes = this.props.location.state.nodeArray;
+        //this.test =this.props.location.state.test;
+        //this.nodes = this.props.location.state.nodeArray;
     }
 
     // this.ram = randomRAM()
@@ -33,13 +33,14 @@ class PrincipalCpu extends React.Component {
 
     async componentDidMount() {
         let numNodes = 1000;
-
+        let j = 0;
         for (var i = 0; i < numNodes; i++) {
             let width = 500;
             let height = 500;
 
             // this.state.nodes.push(new Node(width, height, 100 / 2));
         }
+
         this.setState({
             nodes : this.nodes
         })
@@ -48,37 +49,42 @@ class PrincipalCpu extends React.Component {
         // this.cpu = randomCPU()
         // this.hz = randomHZ();
         // this.hhd = randomHHD()
-        var totalRam = 0;
-        var totalCpu = 0;
-        var totalHz = 0;
-        var totalHhd = 0;
-        if (this.state.nodes.length > 0) {
-            for (i = 0; i < this.state.nodes.length; i++) {
-                if (this.state.nodes[i].participation == 1) {
+        //var totalRam = 0;
+        //var totalCpu = 0;
+        //var totalHz = 0;
+        //var totalHhd = 0;
+        //if (this.state.nodes.length > 0) {
+        //    for (i = 0; i < this.state.nodes.length; i++) {
+        //        if (this.state.nodes[i].participation == 1) {
 
-                    totalRam += this.state.nodes[i].ram;
-                    totalCpu += this.state.nodes[i].cpu;
-                    totalHz += this.state.nodes[i].hz;
-                    totalHhd += this.state.nodes[i].hhd;
+        //            totalRam += this.state.nodes[i].ram;
+        //            totalCpu += this.state.nodes[i].cpu;
+        //            totalHz += this.state.nodes[i].hz;
+        //            totalHhd += this.state.nodes[i].hhd;
 
-                    if (i == this.state.nodes.length - 1) {
-                        this.setState({
-                            ram: totalRam
-                        });
-                        this.setState({
-                            cpu: totalCpu
-                        });
-                        this.setState({
-                            hz: totalHz
-                        });
-                        this.setState({
-                            hhd: totalHhd
-                        });
-                        break;
-                    }
-                }
-            }
-        }
+        //            if (i == this.state.nodes.length - 1) {
+        //                this.setState({
+        //                    ram: totalRam
+        //                });
+        //                this.setState({
+        //                    cpu: totalCpu
+        //                });
+        //                this.setState({
+        //                    hz: totalHz
+        //                });
+        //                this.setState({
+        //                    hhd: totalHhd
+        //                });
+        //                break;
+        //            }
+        //        }
+        //    }
+        //}
+
+        this.state.ram = this.props.location.state.RAM;
+        this.state.cpu = this.props.location.state.cpu;
+        this.state.hhd = this.props.location.state.Hhd;
+        this.state.hz = this.props.location.state.hz;
     }
 
     handleCommand(value) {
@@ -148,13 +154,13 @@ class PrincipalCpu extends React.Component {
                     <h4 className="card-header">CPU Principal</h4>
                     <div id="bodycard" className="card-boddy">
                         <h1>RAM</h1>
-                        <p>{this.state.ram}</p>
-                        <h1>Cpu</h1>
+                        <p>{this.state.ram} GB</p>
+                        <h1>CPU's</h1>
                         <p>{this.state.cpu}</p>
                         <h1>Hhd</h1>
-                        <p>{this.state.hhd}</p>
+                        <p>{this.state.hhd} GB</p>
                         <h1>Processor Speed</h1>
-                        <p>{this.state.hz}</p>
+                        <p>{this.state.hz} Hz</p>
                     </div>
 
                 </div>
@@ -225,3 +231,18 @@ class PrincipalCpu extends React.Component {
 }
 
 export default PrincipalCpu;
+
+// <form>
+//     <div className="form-group">
+//         <h1>Principal CPU</h1>
+//
+//         <h1>RAM</h1>
+//         <p>{this.state.ram}</p>
+//         <h1>Cpu</h1>
+//         <p>{this.state.cpu}</p>
+//         <h1>Hhd</h1>
+//         <p>{this.state.hhd}</p>
+//         <h1>Processor Speed</h1>
+//         <p>{this.state.hz}</p>
+//     </div>
+// </form>

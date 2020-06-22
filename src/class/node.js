@@ -191,10 +191,10 @@ class Node {
 
         //properties
         this.participation = Math.random() >= 0.5;
-        this.ram = randomRAM()
-        this.cpu = randomCPU()
+        this.ram = randomRAM();
+        this.cpu = randomCPU();
         this.hz = randomHZ();
-        this.hhd = randomHHD()
+        this.hhd = randomHHD();
         //fabricante
         this.maker = randomMAKER()
         this.instructions = Instructions(this.maker)
