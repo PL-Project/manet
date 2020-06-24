@@ -3,7 +3,6 @@ import DELL from '../images/Makers/DELL.PNG'
 import INTEL from '../images/Makers/INTEL.png'
 import QUALCOMM from '../images/Makers/QUALCOMM.png'
 
-
 function randomRAM() {
     return Math.floor(Math.random() * 64);
 }
@@ -43,7 +42,7 @@ function randomHHD() {
     }
 }
 function randomCPU() {
-    return Math.floor(Math.random() *8);
+    return Math.floor(Math.random() *8)+1;
 }
 function randomHZ() {
     let select = Math.floor(Math.random()*10)
@@ -183,10 +182,11 @@ class Node {
     constructor(width,height,size,id){
         this.id=id;
         this.size=size
+        this.v=0.5;
         this.x = Math.random() * (width-size-1)+1;
         this.y= Math.random() * (height-size-1)+1;
-        this.dx = (Math.random() - 0.5) * 0.5;
-        this.dy = (Math.random() - 0.5) * 0.5; 
+        this.dx = (Math.random() - 0.5) * this.v;
+        this.dy = (Math.random() - 0.5) * this.v; 
         
 
         //properties
@@ -199,17 +199,208 @@ class Node {
         this.instructions = Instructions(this.maker)
         
         //maker --> image
-        this.icon = new Image();
-        this.icon.src =randomImage(this.maker)
+        this.image = new Image();
+        this.image.src =randomImage(this.maker)
 
     }
 
-    get image(){
-        return this.icon
+    getId(){
+        return this.id;
     }
+    setId(id){
+        this.id= id;
+    }
+    getImage(){
+        return this.image;
+    }
+    setImage(img){
+        this.image=img;
+    }
+    getImageSrc(){
+        return this.img.src;
+    }
+    setImageSrc(src){
+        switch (src) {
+            case "AMD":
+                this.image.src =AMD;
+                break;
+            case "INTEL":
+                this.image.src =INTEL;
+                break;
+            case "QUALCOMM":
+                this.image.src =QUALCOMM;
+                break;
+            case "DELL":
+                this.image.src =DELL;
+                break;
+            default:
+                this.image.src =src;
+                break;
+        }
+    }
+    getMaker(){
+        return this.maker;
+    }
+    setMaker(maker){
+        switch (maker) {
+            case "AMD":
+                this.maker=maker;
+                this.setInstructions(maker);
+                this.setImageSrc(maker);
+                break;
+            case "INTEL":
+                this.maker=maker;
+                this.setInstructions(maker);
+                this.setImageSrc(maker);
+                break;
+            case "QUALCOMM":
+                this.maker=maker;
+                this.setInstructions(maker);
+                this.setImageSrc(maker);
+                break;
+            case "DELL":
+                this.maker=maker;
+                this.setInstructions(maker);
+                this.setImageSrc(maker);
+                break;
+            default:
+                this.maker=maker;
+                this.setInstructions(maker);
+                this.setImageSrc(maker);
+                break;
+        }
+    }
+    getInstructions(){
+        return this.instructions
+    }
+    setInstructions(maker){
+        switch (maker) {
+            case "AMD":
+                this.instructions=[
+                    "Move",
+                    "Store",
+                    "Load",
+                    "Add",
+                    "multiply",
+                    "Substract",
+                    "compare",
+                    "NAND",
+                    "NOR",
+                    "Shift",
+                    "jmpnz",
+                    "halt"
+                ]
+                break;
+            case "INTEL":
+                this.instructions=[
+                    "Move",
+                    "Store",
+                    "Load",
+                    "Add",
+                    "divide",
+                    "Substract",
+                    "compare",
+                    "NOT",
+                    "AND",
+                    "OR",
+                    "jmpg",
+                    "wait",
+                    
+                ]
+                break;
+            case "QUALCOMM":
+                this.instructions=[
+                    "Move",
+                    "Store",
+                    "Load",
+                    "Substract",
+                    "divide",
+                    "zero test",
+                    "NOT",
+                    "AND",
+                    "XOR",
+                    "jmp"
+                ]
+                break;
+            case "DELL":
+                this.instructions=[
+                    "Move",
+                    "Add",
+                    "Store",
+                    "Load",
+                    "Substract",
+                    "Move multiple",
+                    "Push",
+                    "Pop",
+                    "Multiply"
+                ]
+                break;
+        }
+    }
+    getRam(){
+        return this.ram;
+    }
+    setRam(ram){
+        this.ram = ram;
+    }
+    getCPU(){
+        return this.cpu;
+    }
+    setCpu(cpu){
+        this.cpu = cpu;
+    }
+    getHz(){
+        return this.hz;
+    }
+    setHz(hz){
+        this.hz=hz;
+    }
+    getHhd(){
+        return this.hhd
+    }
+    setHhd(hhd){
+        this.hhd=hhd;
+    }
+    getX(){
+        return this.x;
+    }
+    setX(x){
+        this.x=x;
+    }
+    getY(){
+        return this.y;
+    }
+    setY(y){
+        this.y = y;
+    }
+    getDx(){
+        return this.dx;
+    }
+    setDx(dx){
+        this.dx=dx;
+    }
+    getDy(){
+        return this.dy;
+    }
+    setDy(dy){
+        this.dy=dy;
+    }
+    getV(){
+        return this.v;
+    }
+    setV(ve){
+        this.dx=(this.dx/this.v )*ve;
+        this.dy=(this.dy/this.v )*ve;
+        
+        this.v=ve;
+    }
+    getCoordinates(){
+        return [this.x+(this.size/2),this.y+(this.size/2)];
+    }
+
 
     draw(ctx) {
-        ctx.drawImage(this.icon,this.x,this.y,this.size,this.size)
+        ctx.drawImage(this.image,this.x,this.y,this.size,this.size)
     }
 
     update(ctx,width,height) {
@@ -224,21 +415,12 @@ class Node {
         this.y += this.dy;
         this.draw(ctx);
     }
-    getX(){
-        return this.x;
-    }
-    getY(){
-        return this.y;
-    }
-    getId(){
-        return this.id;
-    }
-    getCoordinates(){
-        return [this.x+(this.size/2),this.y+(this.size/2)];
-    }
-
+    
     toString(){
-        return "Cpu: " +this.cpu+"\nVelocidad: "+this.hz+"Hz"+"\nRam: "+this.ram+"GB" + "\nDisco: "+this.hhd+"GB";
+        return "Fabricante: "+this.maker +
+                ", Cpu: " + this.cpu+ " nucleos"+
+                ", Velocidad: " +this.hz + " Hz"+
+                ", Disco Duro: " + this.hhd +" GB";
     }
    
 }

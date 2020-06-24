@@ -1,12 +1,17 @@
 import React from 'react';
-import Node from '../class/node'
-import Link from '../class/link'
-import Message from '../class/message'
-import '../css/manet.css'
-import map from '../images/map3.jpg'
-import link from '../class/link';
-import PCmessages from '../images/PCmessages.png'
-
+//components
+import Info from './Info';
+//js clases
+import Node from '../class/node';
+import Link from '../class/link';
+import Message from '../class/message';
+//modal bootstrap
+import {Modal} from 'react-bootstrap';
+//images
+import PCmessages from '../images/PCmessages.png';
+import map from '../images/map3.jpg';
+//css styles
+import '../css/manet.css';
 
 class Manet extends React.Component{
 
@@ -25,6 +30,9 @@ class Manet extends React.Component{
         this.updateEmisor = this.updateEmisor.bind(this);
         this.updateReceptor = this.updateReceptor.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+
 
         this.state={
             width: Number,
@@ -34,8 +42,10 @@ class Manet extends React.Component{
             canvas:[],
             reqAnimation:0,
             On: false,
-            emisor:'',
-            receptor: ''
+            visualizador:'',
+            emisor:[],
+            receptor: [],
+            showModal: false
             
         }
     }
@@ -58,7 +68,6 @@ class Manet extends React.Component{
 
 
     }
-
     start(){
         if(this.state.On){
             this.clear()
@@ -74,8 +83,9 @@ class Manet extends React.Component{
         window.cancelAnimationFrame(this.state.reqAnimation)
         this.state.On = false
         this.state.nodeArray=[]
-        this.state.emisor=""
-        this.state.receptor=""
+        this.state.visualizador=''
+        this.state.emisor=[]
+        this.state.receptor=[]
         this.state.canvas.drawImage(this.map,0,0,this.state.width,this.state.height)
         this.setState({
             //obligo a actualizar las listas
@@ -94,6 +104,7 @@ class Manet extends React.Component{
         this.state.nodeArray =nodos
         this.setState({
             //obligo a actualizar las listas
+            visualizador: this.state.nodeArray[0]
         })
         
     }
@@ -123,7 +134,6 @@ class Manet extends React.Component{
             return Math.log(n)
         }
     }
-
     createLinks() {
         let linkArray = [];
         let nodeArray=this.state.nodeArray;
@@ -153,26 +163,42 @@ class Manet extends React.Component{
             }
         }
     }
-    updateEmisor(id){
-
+    updateVisualizador(id){
         let node = this.getNodebyID(id);
-
         this.setState({
-            emisor: node.toString()
+            visualizador: node
+        })
+    }
+    updateEmisor(id){
+        let node = this.getNodebyID(id);
+        this.setState({
+            emisor: node
         })
     }
     updateReceptor(id){
-
         let node = this.getNodebyID(id);
-
         this.setState({
-            receptor: node.toString()
+            receptor: node
         })
     }
-
-    sendMessage(){
-        alert("enviando msj...");
+    openModal(){
+        this.setState({
+            showModal: !this.state.showModal
+        })
     }
+    closeModal(){
+        this.setState({
+            showModal: false
+        })
+    }
+    sendMessage(){
+        let textMsj = this.refs.textMessage.value
+        let E = this.refs.emisorSelect.value
+        let R = this.refs.receptorSelect.value
+        alert(E +"___"+R+"__MSJ::__"+textMsj)
+        
+    }
+    
     render(){
         return(
             <div id="big" className="row">
@@ -190,33 +216,54 @@ class Manet extends React.Component{
                     </div>
                 </div> 
 
-                <div id="mensajes" className="card">
-                    <h5 className="card-header">MENSAJES</h5>
+                <div id="Herramientas" className="card">
+                    <h5 className="card-header">HERRAMIENTAS</h5>
                     <div id="bodymensaje" className="card-body">
-                        <div id="emisor" className="cardpersonalizada" >
-                            <h6>EMISOR</h6>
-                            <div className="row">
-                                <img src={PCmessages} className="column imagenpersonalizada"/>
-                                <label className="column labelpersonalizada" ref="emisorINFO" >{this.state.emisor}</label>
+                        <div id="visualizador" className="cardpersonalizada" >
+                            <h6>PRE-VISUALIZADOR</h6>
+                            <div className="container">
+                                <div className="row">
+                                    <img src={PCmessages} className="column" />
+                                    <label className="column labelpersonalizada" ref="visualizadorINFO" onClick={this.openModal}>{this.state.visualizador.toString()}</label>
+                                    {this.state.showModal &&
+                                    <Modal show ={this.state.showModal} onHide={this.closeModal}>
+                                        <Modal.Header closeButton>
+                                        </Modal.Header>
+                                        <Modal.Body id="modalbody">
+                                            <Info node = {this.state.visualizador} onClose ={this.closeModal}></Info>
+                                        </Modal.Body>
+                                    </Modal>}
+                                </div>
                             </div>
-                            <select ref="emisorSelect" type="select" className="form-control" onChange={(e)=>this.updateEmisor(e.target.value)}> 
-                                {this.state.nodeArray.map((node, key) => { return <option key={node.getId()} value={node.getId()} >Nodo {node.getId()}</option>; })} 
+                            <select type="select" className="form-control" onChange={(e)=>this.updateVisualizador(e.target.value)}> 
+                                {this.state.nodeArray.map((node, key) => { return <option key={node.getId()} value={node.getId()} >Nodo {node.getId()} : {node.getMaker()} </option>; })} 
                             </select>
                         </div>
-
-                        <div id="receptor" className="cardpersonalizada" >
-                            <h6>RECEPTOR</h6>
-                            <div className="row">
-                                <img src={PCmessages} className="column imagenpersonalizada"/>
-                                <label className="column labelpersonalizada" ref="emisorINFO" >{this.state.receptor}</label>
+                        <div id="mensajes" className="cardpersonalizada" >
+                            <h6>MENSAJES</h6>
+                            <div className="container">
+                                <div id="emisor" className="row selectorContainer">
+                                    <label className="labelpersonalizada2 col-sm">Emisor :</label>
+                                    <select className="form-control selectpp col-sm" ref="emisorSelect" type="select" onChange={(e)=>this.updateEmisor(e.target.value)}> 
+                                        {this.state.nodeArray.map((node, key) => { return <option key={node.getId()} value={node.getId()} >Nodo {node.getId()}</option>; })} 
+                                    </select>
+                                </div>
                             </div>
-                            <select ref="receptorSelect" type="select" className="form-control" onChange={(e)=>this.updateReceptor(e.target.value)}> 
-                                {this.state.nodeArray.map((node, key) => { return <option key={node.getId()} value={node.getId()} >Nodo {node.getId()}</option>; })} 
-                            </select>
-                        </div>
-
-
-                        
+                            <div className="container">
+                                <div id="receptor" className="row selectorContainer">
+                                    <label className="labelpersonalizada2 col-sm">Receptor :</label>
+                                    <select className="form-control selectpp col-sm" ref="receptorSelect" type="select" onChange={(e)=>this.updateReceptor(e.target.value)}> 
+                                        {this.state.nodeArray.map((node, key) => { return <option key={node.getId()} value={node.getId()} >Nodo {node.getId()}</option>; })} 
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="container">
+                                <div id="tipoMensaje" className="selectorContainer">
+                                    <label className="labelpersonalizada2">Mensaje :</label>
+                                    <textarea ref="textMessage"className="form-control" rows="1" ></textarea>
+                                </div>
+                            </div>
+                        </div> 
                     </div>
                     <div id="piemsj" className="card-footer">
                         <button id="enviarmsj"type="button" className="btn col-sm-3 btn-primary" onClick={this.sendMessage}>Enviar</button>
