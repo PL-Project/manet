@@ -38,7 +38,9 @@ class Info extends Component {
                             </div>
                             <div className="col-md-6 mb-2">
                                 <label className="form-control">Velocidad del Nodo:</label>
-                                <input ref="speed" className="form-control" type="number" defaultValue={this.state.node.getV()} />
+                                <input ref="speed" className="form-control" type="number" 
+                                step="0.5" min="0.5" max="1000" onKeyDown={(e) => {e.preventDefault();}}
+                                defaultValue={this.state.node.getV()} />
                             </div>
                             <div className="col-md-6 mb-2">
                                 <label className="form-control ">Trayectoria del Nodo:</label>
@@ -65,24 +67,32 @@ class Info extends Component {
                             <div className="col-md-6 mb-2">
                                 <label className="form-control ">Nucleos de Procesamiento:</label>
                                 <input ref="cpu" className="form-control" type="number" 
-                                min="1" max="8"  
+                                min="1" max="8" onKeyDown={(e) => {e.preventDefault();}}
                                 defaultValue={this.state.node.getCPU()}/>
                             </div>
                             <div className="col-md-6 mb-2">
                                 <label className="form-control ">Velocidad de los Nucleos:</label>
-                                <input ref="hz" className="form-control" type="number" defaultValue={this.state.node.getHz()} />
+                                <input ref="hz" className="form-control" type="number" 
+                                step="0.1" min="1" max= "5" onKeyDown={(e) => {e.preventDefault();}}
+                                defaultValue={this.state.node.getHz()} />
                             </div>
                             <div className="col-md-6 mb-2">
                                 <label className="form-control ">Memoria RAM (GB):</label>
-                                <input ref="ram" className="form-control " type="number" defaultValue={this.state.node.getRam()} />
+                                <input ref="ram" className="form-control " type="number" 
+                                min="1" max="64" onKeyDown={(e) => {e.preventDefault();}}
+                                defaultValue={this.state.node.getRam()} />
                             </div>
                             <div className="col-md-12 mb-1">
                                 <label className="form-control j">Disco de Almacenamiento (GB):</label>
-                                <input ref="hhd" className="form-control " type="number" defaultValue={this.state.node.getHhd()} />
+                                <input ref="hhd" className="form-control " type="number" 
+                                min="30" max="5000" onKeyDown={(e) => {e.preventDefault();}}
+                                defaultValue={this.state.node.getHhd()} />
                             </div>
                             <div className="col-md-12 mb-1">
                                 <label className="form-control">Instrucciones:</label>
-                                <textarea className="form-control" type="text" defaultValue={this.state.node.getInstructions()} />
+                                <textarea className="form-control" type="text" 
+                                disabled
+                                defaultValue={this.state.node.getInstructions()} />
                             </div>
                         </div>
                     </div>

@@ -4,7 +4,7 @@ import INTEL from '../images/Makers/INTEL.png'
 import QUALCOMM from '../images/Makers/QUALCOMM.png'
 
 function randomRAM() {
-    return Math.floor(Math.random() * 64);
+    return Math.floor(Math.random() * 64)+1;
 }
 function randomHHD() {
     let select = Math.floor(Math.random()*10)
@@ -45,7 +45,7 @@ function randomCPU() {
     return Math.floor(Math.random() *8)+1;
 }
 function randomHZ() {
-    let select = Math.floor(Math.random()*10)
+    let select = Math.floor(Math.random()*10);
     switch (select) {
         case 0:
             return 1.5

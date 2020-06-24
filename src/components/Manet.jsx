@@ -8,8 +8,8 @@ import Message from '../class/message';
 //modal bootstrap
 import {Modal} from 'react-bootstrap';
 //images
-import PCmessages from '../images/PCmessages.png';
-import map from '../images/map3.jpg';
+import PCmessages from '../images/PCMSM.png';
+import map from '../images/MAP.jpg';
 //css styles
 import '../css/manet.css';
 
@@ -79,6 +79,7 @@ class Manet extends React.Component{
         }
     }
     clear(){
+        this.refs.textMessage.value='';
         this.state.canvas.clearRect(0,0,this.state.width,this.state.height)
         window.cancelAnimationFrame(this.state.reqAnimation)
         this.state.On = false
@@ -104,8 +105,12 @@ class Manet extends React.Component{
         this.state.nodeArray =nodos
         this.setState({
             //obligo a actualizar las listas
-            visualizador: this.state.nodeArray[0]
         })
+        if(numNodes>0){
+            this.setState({
+                visualizador: this.state.nodeArray[0]
+            })
+        }
         
     }
     animate(){
@@ -209,7 +214,8 @@ class Manet extends React.Component{
                     </div>
                     <div id="footercard" className="card-footer">
                         <div className="row">
-                            <input  className="col-sm-3 form-control" ref="numNodes" type="number" placeholder="# Nodos" min="1" max="500" />
+                            <input  className="col-sm-3 form-control" ref="numNodes" type="number" placeholder="# Nodos" 
+                            min="1" max="500" onKeyDown={(e) => {e.preventDefault();}}/>
                             <button type="button" className="btn col-sm-3 btn-primary " onClickCapture={this.start}>Animar</button>
                             <button type="button" className="btn col-sm-3 btn-primary " onClickCapture={this.clear}>Limpiar</button>
                         </div>
