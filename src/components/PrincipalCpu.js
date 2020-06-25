@@ -140,9 +140,39 @@ class PrincipalCpu extends React.Component {
                  output : total
             })
         }
+        if(this.consoleCommand.toString() == "substract"){
+            console.log(this.param1);
+            console.log(this.param2);
+            var total = this.substract(parseInt(this.param1), parseInt(this.param2));
+            console.log(total);
+
+
+            this.setState({
+                output : total
+            })
+        }
     }
     add(val, val2) {
         return val + val2;
+    }
+    substract(val, val2) {
+        return val - val2;
+    }
+
+    multiply(val, val2) {
+        return val - val2;
+    }
+    requestSpace(val, val2) {
+        return val - val2;
+    }
+    load(val, val2) {
+        return val - val2;
+    }
+    read(val, val2) {
+        return val - val2;
+    }
+    get(val, val2) {
+        return val - val2;
     }
 
 
