@@ -16,7 +16,7 @@ import map from '../images/MAP.jpg';
 import '../css/manet.css';
 import {Link as Linking} from 'react-router-dom';
 
-import PCmessages from '../images/PCmessages.png';
+
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import PrincipalCpu from "./PrincipalCpu";
 import link from '../class/link';
