@@ -7,6 +7,7 @@ class link {
         this.p2=node2.getCoordinates();
         this.id1= node1.id;
         this.id2= node2.id;
+        this.id = node1.id +" ---- "+node2.id;
     }
     getId1(){
         return this.id1;

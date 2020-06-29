@@ -1,6 +1,7 @@
 import React from 'react';
 //components
 import Info from './Info';
+import LinkTable from './LinkTable';
 //js clases
 import Node from '../class/node';
 import Link from '../class/link';
@@ -32,6 +33,8 @@ class Manet extends React.Component{
         this.sendMessage = this.sendMessage.bind(this);
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.openMTable = this.openMTable.bind(this);
+        this.closeMTable = this.closeMTable.bind(this);
 
 
         this.state={
@@ -45,7 +48,8 @@ class Manet extends React.Component{
             visualizador:'',
             emisor:[],
             receptor: [],
-            showModal: false
+            showModal: false,
+            showMTable: false
             
         }
     }
@@ -150,7 +154,7 @@ class Manet extends React.Component{
                 if(nodeArray[i].getId()!=nodeArray[j].getId()){
     
                     let distance= Math.sqrt(Math.pow(nodeArray[i].getX()-nodeArray[j].getX(),2)+Math.pow(nodeArray[i].getY()-nodeArray[j].getY(),2));
-                    if(distance<80){
+                    if(distance<300){
                         linkArray.push(new Link(nodeArray[i],nodeArray[j]));
                     }
                 }
@@ -196,6 +200,16 @@ class Manet extends React.Component{
             showModal: false
         })
     }
+    openMTable(){
+        this.setState({
+            showMTable: !this.state.showMTable
+        })
+    }
+    closeMTable(){
+        this.setState({
+            showMTable: false
+        })
+    }
     sendMessage(){
         let textMsj = this.refs.textMessage.value
         let E = this.refs.emisorSelect.value
@@ -210,18 +224,26 @@ class Manet extends React.Component{
                 <div id="simulador" className="card">
                     <h4 className="card-header">SIMULADOR LENG2020-1 GRP3 </h4>
                     <div id="bodycard" className="card-boddy">
-                        <canvas id="manet" ref="canvas" width="1920" height="1080"></canvas>
+                        <canvas id="manet" ref="canvas" width="1920" height="1080" onClick={this.openMTable}></canvas>
+                        <Modal show ={this.state.showMTable} onHide={this.closeMTable}>
+                            <Modal.Header closeButton>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <LinkTable linkList={this.state.linkArray}></LinkTable>
+                            </Modal.Body>
+                        </Modal>
                     </div>
                     <div id="footercard" className="card-footer">
                         <div className="row">
                             <input  className="col-sm-3 form-control" ref="numNodes" type="number" placeholder="# Nodos" 
-                            min="1" max="500" onKeyDown={(e) => {e.preventDefault();}}/>
+                            min="1" max="10" onKeyDown={(e) => {e.preventDefault();}}/>
                             <button type="button" className="btn col-sm-3 btn-primary " onClickCapture={this.start}>Animar</button>
                             <button type="button" className="btn col-sm-3 btn-primary " onClickCapture={this.clear}>Limpiar</button>
                         </div>
                     </div>
                 </div> 
 
+                
                 <div id="Herramientas" className="card">
                     <h5 className="card-header">HERRAMIENTAS</h5>
                     <div id="bodymensaje" className="card-body">
@@ -231,14 +253,13 @@ class Manet extends React.Component{
                                 <div className="row">
                                     <img src={PCmessages} className="column" />
                                     <label className="column labelpersonalizada" ref="visualizadorINFO" onClick={this.openModal}>{this.state.visualizador.toString()}</label>
-                                    {this.state.showModal &&
                                     <Modal show ={this.state.showModal} onHide={this.closeModal}>
                                         <Modal.Header closeButton>
                                         </Modal.Header>
                                         <Modal.Body id="modalbody">
                                             <Info node = {this.state.visualizador} onClose ={this.closeModal}></Info>
                                         </Modal.Body>
-                                    </Modal>}
+                                    </Modal>
                                 </div>
                             </div>
                             <select type="select" className="form-control" onChange={(e)=>this.updateVisualizador(e.target.value)}> 
