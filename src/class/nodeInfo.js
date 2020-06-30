@@ -16,6 +16,7 @@ class NodeInfo {
         this.instructions = instructions;
         this.image = ""
         this.storeNum = 0
+        this.registers = [0,1,2,3]
     }
 
     getId(){
@@ -78,6 +79,9 @@ class NodeInfo {
                 break;
         }
         return this.image;
+    }
+    getRegisters(){
+        return this.registers;
     }
     getImage(){
         return this.image;
