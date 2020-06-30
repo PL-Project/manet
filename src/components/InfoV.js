@@ -67,6 +67,22 @@ class InfoV extends Component {
                                 <label className="form-control j">{this.state.node.getHhd()}</label>
                             </div>
                             <div className="col-md-12 mb-1">
+                                <label className="form-control j">Register 0:</label>
+                                <label className="form-control j">{this.state.node.getRegisters()[0].toString()}</label>
+                            </div>
+                            <div className="col-md-12 mb-1">
+                                <label className="form-control j">Register 1:</label>
+                                <label className="form-control j">{this.state.node.getRegisters()[1].toString()}</label>
+                            </div>
+                            <div className="col-md-12 mb-1">
+                                <label className="form-control j">Register 2:</label>
+                                <label className="form-control j">{this.state.node.getRegisters()[2].toString()}</label>
+                            </div>
+                            <div className="col-md-12 mb-1">
+                                <label className="form-control j">Register 3:</label>
+                                <label className="form-control j">{this.state.node.getRegisters()[3].toString()}</label>
+                            </div>
+                            <div className="col-md-12 mb-1">
                                 <label className="form-control j">Num to store:</label>
                                 <label className="form-control j">{this.state.node.getStoreNum()}</label>
                             </div>

@@ -16,7 +16,7 @@ class NodeInfo {
         this.instructions = instructions;
         this.image = ""
         this.storeNum = 0
-        this.registers = new Array(4)
+        this.registers = [0,0,0,0]
     }
 
     getId(){
