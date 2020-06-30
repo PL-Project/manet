@@ -33,8 +33,13 @@ class Info extends Component {
                 <div id="popup2">
                     <div id="img">
                         <div className="form-row">
-                            <div className="col-md-12 mb-1">
+                            <div className="col-md-6 mb-2">
                                 <img src={this.state.node.getImage().src} width="100" height="100"/>
+                            </div>
+                            <div className="col-md-6 mb-2">
+                                <label className="form-control">Participa:</label>
+                                <input ref="speed" className="form-control" type="text"
+                                defaultValue={this.state.node.getParticipation()} disabled />
                             </div>
                             <div className="col-md-6 mb-2">
                                 <label className="form-control">Velocidad del Nodo:</label>

@@ -197,8 +197,10 @@ class Node {
         this.hhd = randomHHD();
         //fabricante
         this.maker = randomMAKER()
-        this.instructions = Instructions(this.maker)
-        
+        this.instructions = Instructions(this.maker)        
+        //Handshake
+        this.openHandshake = this.participation;
+
         //maker --> image
         this.image = new Image();
         this.image.src =randomImage(this.maker)
@@ -402,6 +404,21 @@ class Node {
         return [this.x+(this.size/2),this.y+(this.size/2)];
     }
 
+    getOpenHandshake(){
+        return this.openHandshake;
+    }
+
+    getParticipation(){
+        return this.participation;
+    }
+
+    setTrueParticipation(){
+        this.participation = true;
+    }
+
+    setFalseParticipation(){
+        this.participation = false;
+    }
 
 
     draw(ctx) {

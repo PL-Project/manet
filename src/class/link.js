@@ -2,12 +2,13 @@
 
 class link {
     
-    constructor(node1,node2){
+    constructor(node1,node2,color){
         this.p1=node1.getCoordinates();
         this.p2=node2.getCoordinates();
         this.id1= node1.id;
         this.id2= node2.id;
         this.id = node1.id +" ---- "+node2.id;
+        this.color =color
     }
     getId1(){
         return this.id1;
@@ -22,7 +23,7 @@ class link {
     }
     draw(ctx){
         ctx.lineWidth = 3;
-        ctx.strokeStyle = "green";
+        ctx.strokeStyle = this.color;
         ctx.beginPath();
         ctx.moveTo(this.p1[0],this.p1[1]);
         ctx.lineTo(this.p2[0],this.p2[1]);
