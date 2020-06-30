@@ -208,6 +208,9 @@ class Node {
     getId(){
         return this.id;
     }
+    getParticipation(){
+        return this.participation;
+    }
     setId(id){
         this.id= id;
     }
@@ -398,6 +401,7 @@ class Node {
     getCoordinates(){
         return [this.x+(this.size/2),this.y+(this.size/2)];
     }
+
 
 
     draw(ctx) {

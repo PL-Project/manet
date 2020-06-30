@@ -6,6 +6,8 @@ class PrincipalCpu extends React.Component {
     constructor(props) {
         super(props);
         this.consoleCommand = "";
+        this.nodes = this.props.location.state.nodes;
+        this.NumberOfNodes = this.props.location.state.NumberOfNodes;
         this.param1 = "";
         this.param2 = "";
         this.param3 = "";
@@ -29,6 +31,7 @@ class PrincipalCpu extends React.Component {
         value2: Number,
         newVal: "",
         output: ""
+
     }
 
     async componentDidMount() {
@@ -129,6 +132,13 @@ class PrincipalCpu extends React.Component {
     }
     handleInstruction(){
         console.log(this.consoleCommand);
+        console.log("hellllllooooo" + this.NumberOfNodes)
+        console.log("test maker" + this.nodes[1].getMaker())
+
+        // for(this.state.NumberOfNodes){
+        //
+        //
+        // }
         if(this.consoleCommand.toString() == "add"){
             console.log(this.param1);
             console.log(this.param2);
