@@ -83,10 +83,6 @@ class InfoV extends Component {
                                 <label className="form-control j">{this.state.node.getRegisters()[3].toString()}</label>
                             </div>
                             <div className="col-md-12 mb-1">
-                                <label className="form-control j">Num to store:</label>
-                                <label className="form-control j">{this.state.node.getStoreNum()}</label>
-                            </div>
-                            <div className="col-md-12 mb-1">
                                 <label className="form-control">Instrucciones:</label>
                                 <textarea className="form-control" type="text"
                                           disabled

@@ -222,17 +222,24 @@ class PrincipalCpu extends React.Component {
                 })
             }
             else if(typeof(this.param1)  == typeof ("string")){
-                data = this.param1.match(new RegExp('.{1,' + this.param1.length / this.state.nodosParticipantes.length + '}', 'g'));
+                var divNumber = Math.ceil(this.param1.length / this.state.nodosParticipantes.length)
+                var data = this.param1.match(new RegExp('.{1,' + divNumber.toString() + '}', 'g'));
                 console.log("data --->>>>" + data)
                 console.log("data_length --->>>>" + data.length)
                 for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
-                    this.state.nodosParticipantes[i].getRegisters()[0] = data[i]
+                    if(data.length < i + 1){
+                        this.state.nodosParticipantes[i].getRegisters()[0] = ""
+                    }else{
+                        this.state.nodosParticipantes[i].getRegisters()[0] = data[i]
+                    }
+
                 }
+
             }
         }
         if(this.consoleCommand.toString() == "setRegister1"){
 
-            if(typeof(this.param1)  == typeof (0)){
+            if(typeof (this.param1)  == typeof (0)){
                 var data = this.param1/this.state.nodosParticipantes.length
 
 
@@ -245,16 +252,26 @@ class PrincipalCpu extends React.Component {
                 })
             }
             else if(typeof(this.param1)  == typeof ("string")){
-                data = this.param1.match(new RegExp('.{1,' + this.param1.length / this.state.nodosParticipantes.length + '}', 'g'));
+                var divNumber = Math.ceil(this.param1.length / this.state.nodosParticipantes.length)
+                var data = this.param1.match(new RegExp('.{1,' + divNumber.toString() + '}', 'g'));
+
+                // var data = this.param1.match(new RegExp('.{1,' + this.param1.length / this.state.nodosParticipantes.length + '}', 'g'));
+                console.log("data 1 --->>>>" + data)
+                console.log("data_length 1 --->>>>" + data.length)
                 for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
-                    this.state.nodosParticipantes[i].getRegisters()[1] = data[i]
+                    if(data.length < i + 1){
+                        this.state.nodosParticipantes[i].getRegisters()[1] = ""
+                    }else{
+                        this.state.nodosParticipantes[i].getRegisters()[1] = data[i]
+                    }
+                    // console.log("posicion 1" + this.state.nodosParticipantes[i].getRegisters()[1])
+                    // this.state.nodosParticipantes[i].getRegisters()[1] = data[i]
                 }
             }
         }
         if(this.consoleCommand.toString() == "setRegister2"){
             if(typeof(this.param1)  == typeof (0)){
-                var data = this.param1/this.state.nodosParticipantes.length
-
+                var data = this.param1 / this.state.nodosParticipantes.length
 
                 for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
                     this.state.nodosParticipantes[i].getRegisters()[2] = data
@@ -265,9 +282,17 @@ class PrincipalCpu extends React.Component {
                 })
             }
             else if(typeof(this.param1)  == typeof ("string")){
-                data = this.param1.match(new RegExp('.{1,' + this.param1.length / this.state.nodosParticipantes.length + '}', 'g'));
+                // var data = this.param1.match(new RegExp('.{1,' + this.param1.length / this.state.nodosParticipantes.length + '}', 'g'));
+                var divNumber = Math.ceil(this.param1.length / this.state.nodosParticipantes.length)
+                var data = this.param1.match(new RegExp('.{1,' + divNumber.toString() + '}', 'g'));
+
                 for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
-                    this.state.nodosParticipantes[i].getRegisters()[2] = data[i]
+                    if(data.length < i + 1){
+                        this.state.nodosParticipantes[i].getRegisters()[2] = ""
+                    }else{
+                        this.state.nodosParticipantes[i].getRegisters()[2] = data[i]
+                    }
+                    // this.state.nodosParticipantes[i].getRegisters()[2] = data[i]
                 }
             }
         }
@@ -294,9 +319,17 @@ class PrincipalCpu extends React.Component {
                 })
             }
             else if(typeof(this.param1)  == typeof ("string")){
-                data = this.param1.match(new RegExp('.{1,' + this.param1.length / this.state.nodosParticipantes.length + '}', 'g'));
+                // var data = this.param1.match(new RegExp('.{1,' + this.param1.length / this.state.nodosParticipantes.length + '}', 'g'));
+                var divNumber = Math.ceil(this.param1.length / this.state.nodosParticipantes.length)
+                var data = this.param1.match(new RegExp('.{1,' + divNumber.toString() + '}', 'g'));
+
                 for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
-                    this.state.nodosParticipantes[i].getRegisters()[3] = data[i]
+                    // this.state.nodosParticipantes[i].getRegisters()[3] = data[i]
+                    if(data.length < i + 1){
+                        this.state.nodosParticipantes[i].getRegisters()[3] = ""
+                    }else{
+                        this.state.nodosParticipantes[i].getRegisters()[3] = data[i]
+                    }
                 }
             }
         }
@@ -574,7 +607,33 @@ class PrincipalCpu extends React.Component {
         else{
             data = this.param1
         }
-
+        if(this.param2.toString() == "register0"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[0]
+            }
+        }
+        else if(this.param2.toString() == "register1"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[1]
+            }
+        }
+        else if(this.param2.toString() == "register2"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[2]
+            }
+        }
+        else if(this.param3.toString() == "register3"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[3]
+            }
+        }
+        else{
+            data += (this.param2)
+        }
         return data
     }
     openModal(){
