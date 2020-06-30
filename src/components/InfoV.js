@@ -47,36 +47,24 @@ class InfoV extends Component {
                         <div className="form-row">
                             <div className="col-md-6 mb-2">
                                 <label className="form-control">Fabricante:</label>
-                                <select ref="maker" type="select" className="form-control" defaultValue={this.state.node.getMaker()} >
-                                    <option>AMD</option>
-                                    <option>INTEL</option>
-                                    <option>DELL</option>
-                                    <option>QUALCOMM</option>
-                                </select>
+                                <label className="form-control">{this.state.node.getMaker()}</label>
                             </div>
                             <div className="col-md-6 mb-2">
                                 <label className="form-control ">Nucleos de Procesamiento:</label>
-                                <input ref="cpu" className="form-control" type="number"
-                                       min="1" max="8" onKeyDown={(e) => {e.preventDefault();}}
-                                       defaultValue={this.state.node.getCPU()}/>
+                                <label className="form-control ">{this.state.node.getCPU()}</label>
                             </div>
                             <div className="col-md-6 mb-2">
                                 <label className="form-control ">Velocidad de los Nucleos:</label>
-                                <input ref="hz" className="form-control" type="number"
-                                       step="0.1" min="1" max= "5" onKeyDown={(e) => {e.preventDefault();}}
-                                       defaultValue={this.state.node.getHz()} />
+                                <label className="form-control ">{this.state.node.getHz()}</label>
+
                             </div>
                             <div className="col-md-6 mb-2">
                                 <label className="form-control ">Memoria RAM (GB):</label>
-                                <input ref="ram" className="form-control " type="number"
-                                       min="1" max="64" onKeyDown={(e) => {e.preventDefault();}}
-                                       defaultValue={this.state.node.getRam()} />
+                                <label className="form-control ">{this.state.node.getRam()}</label>
                             </div>
                             <div className="col-md-12 mb-1">
                                 <label className="form-control j">Disco de Almacenamiento (GB):</label>
-                                <input ref="hhd" className="form-control " type="number"
-                                       min="30" max="5000" onKeyDown={(e) => {e.preventDefault();}}
-                                       defaultValue={this.state.node.getHhd()} />
+                                <label className="form-control j">{this.state.node.getHhd()}</label>
                             </div>
                             <div className="col-md-12 mb-1">
                                 <label className="form-control">Instrucciones:</label>
@@ -87,7 +75,7 @@ class InfoV extends Component {
                         </div>
                     </div>
                 </div>
-                <button id="save" type="button" className="btn btn-primary" onClick={this.updateNode}>GUARDAR</button>
+
             </div>
 
         );

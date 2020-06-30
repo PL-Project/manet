@@ -15,6 +15,7 @@ class NodeInfo {
         this.maker = maker;
         this.instructions = instructions;
         this.image = ""
+        // this.storeNum = 0
     }
 
     getId(){
