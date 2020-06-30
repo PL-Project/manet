@@ -177,27 +177,45 @@ class Manet extends React.Component {
     }
     createLinks() {
         let linkArray = [];
-        let nodeArray = this.state.nodeArray;
+        let nodeArray=this.state.nodeArray;
 
         for (let i = 0; i < nodeArray.length; i++) {
-
     
             for(let j = 0; j < nodeArray.length; j++){
     
-                if(nodeArray[i].getId()!=nodeArray[j].getId()){
-    
+                if(nodeArray[i].getId()!=nodeArray[j].getId()){                    
                     let distance= Math.sqrt(Math.pow(nodeArray[i].getX()-nodeArray[j].getX(),2)+Math.pow(nodeArray[i].getY()-nodeArray[j].getY(),2));
                     if(distance<300){
-                        linkArray.push(new Link(nodeArray[i],nodeArray[j]));
-
+                        //console.log("In distance "+ nodeArray[i].getId() + nodeArray[j].getId());
+                        if(nodeArray[i].getOpenHandshake()){
+                            //console.log("Nodo "+ nodeArray[i].getId()+" solicita conexión a nodo "+nodeArray[j].getId() );
+                            linkArray.push(new Link(nodeArray[i],nodeArray[j],"red"));
+                            //console.log("New Link");
+                            if(nodeArray[j].getOpenHandshake()){
+                                //console.log("Nodo "+ nodeArray[j].getId()+" acepta conexión con nodo "+nodeArray[i].getId() );
+                                linkArray.pop();
+                                linkArray.push(new Link(nodeArray[i],nodeArray[j],"green"));
+                            } else {
+                                //console.log("Nodo "+ nodeArray[j].getId()+" rechaza conexión con nodo "+nodeArray[i].getId() ); 
+                            }
+                        }
+                        
                     }
                 }
-
+    
             }
-
+            
         }
         this.state.linkArray = linkArray
+        
+    }   
 
+    checkHandshake(node1,node2){
+        if(node1.getOpenHandshake() && node2.getOpenHandshake()){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     getNodebyID(id) {
