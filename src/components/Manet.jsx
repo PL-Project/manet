@@ -129,9 +129,9 @@ class Manet extends React.Component {
         })
     }
 
-    init() {
-        mLog.writeToLog("Simulacion iniciada")
+    init() {        
         mLog.writeToLog("Log iniciado")
+        mLog.writeToLog("Simulacion iniciada")
         let numNodes = Math.floor(Math.abs(this.refs.numNodes.value))
         this.state.nodeArray = []
         let nodos = []
