@@ -220,13 +220,13 @@ class Manet extends React.Component {
         
     }   
 
-    checkHandshake(node1,node2){
-        if(node1.getOpenHandshake() && node2.getOpenHandshake()){
-            return true;
-        } else {
-            return false;
-        }
-    }
+    // checkHandshake(node1,node2){
+    //     if(node1.getOpenHandshake() && node2.getOpenHandshake()){
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
 
     getNodebyID(id) {
         for (let i = 0; i < this.state.nodeArray.length; i++) {

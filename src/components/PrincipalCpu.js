@@ -1,6 +1,10 @@
 import React from 'react';
-import Node from '../class/node'
 import '../css/principalCpu.css'
+import PCmessages from "../images/PCMSM.png";
+import {Modal} from "react-bootstrap";
+import InfoV from "./InfoV";
+import NodeInfo from "../class/nodeInfo";
+
 
 class PrincipalCpu extends React.Component {
     constructor(props) {
@@ -12,16 +16,13 @@ class PrincipalCpu extends React.Component {
         this.param2 = "";
         this.param3 = "";
         this.param4 = "";
-        //this.test =this.props.location.state.test;
-        //this.nodes = this.props.location.state.nodeArray;
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+
     }
 
-    // this.ram = randomRAM()
-    // this.cpu = randomCPU()
-    // this.hz = randomHZ();
-    // this.hhd = randomHHD()
     state = {
-        nodes:  [],
+        nodes:  this.props.location.state.nodes,
         ram: Number,
         cpu: Number,
         hz: Number,
@@ -30,7 +31,11 @@ class PrincipalCpu extends React.Component {
         value1: Number,
         value2: Number,
         newVal: "",
-        output: ""
+        output: "",
+        visualizador: "",
+        nodosParticipantes: [],
+        showModal: false,
+        showMTable: false
 
     }
 
@@ -41,53 +46,52 @@ class PrincipalCpu extends React.Component {
             let width = 500;
             let height = 500;
 
-            // this.state.nodes.push(new Node(width, height, 100 / 2));
         }
-
-        this.setState({
-            nodes : this.nodes
-        })
-        var i;
-        // this.ram = randomRAM()
-        // this.cpu = randomCPU()
-        // this.hz = randomHZ();
-        // this.hhd = randomHHD()
-        //var totalRam = 0;
-        //var totalCpu = 0;
-        //var totalHz = 0;
-        //var totalHhd = 0;
-        //if (this.state.nodes.length > 0) {
-        //    for (i = 0; i < this.state.nodes.length; i++) {
-        //        if (this.state.nodes[i].participation == 1) {
-
-        //            totalRam += this.state.nodes[i].ram;
-        //            totalCpu += this.state.nodes[i].cpu;
-        //            totalHz += this.state.nodes[i].hz;
-        //            totalHhd += this.state.nodes[i].hhd;
-
-        //            if (i == this.state.nodes.length - 1) {
-        //                this.setState({
-        //                    ram: totalRam
-        //                });
-        //                this.setState({
-        //                    cpu: totalCpu
-        //                });
-        //                this.setState({
-        //                    hz: totalHz
-        //                });
-        //                this.setState({
-        //                    hhd: totalHhd
-        //                });
-        //                break;
-        //            }
-        //        }
-        //    }
-        //}
+        //
+        // this.setState({
+        //     nodes : this.nodes
+        // })
+        //
 
         this.state.ram = this.props.location.state.RAM;
         this.state.cpu = this.props.location.state.cpu;
         this.state.hhd = this.props.location.state.Hhd;
         this.state.hz = this.props.location.state.hz;
+
+        this.setState({
+            visualizador : this.nodes[0]
+        })
+        console.log(this.nodes.length + "---------------------------------")
+        console.log(this.state.nodes.length + "*****************")
+        for (let i = 0; i < this.state.nodes.length; i++) {
+            console.log(typeof(this.state.nodes[i].getParticipation()) + "---dasdasdasdasd" )
+
+            if(this.state.nodes[i].getParticipation() == 1){
+
+                console.log(this.state.nodes[i].getMaker() + " MAKER")
+                this.state.nodosParticipantes.push(this.state.nodes[i]);
+
+            }
+        }
+        for (let i = 0; i < this.state.nodosParticipantes.length; i++){
+            console.log("*-*-*-*-- "+ this.state.nodosParticipantes[i].getMaker())
+            this.state.nodosParticipantes[i].setImageSrc(this.state.nodosParticipantes[i].getMaker());
+        }
+
+    }
+    getNodebyID(id) {
+        for (let i = 0; i < this.state.nodes.length; i++) {
+            if (id == this.state.nodes[i].getId()) {
+                return this.state.nodes[i]
+            }
+        }
+    }
+
+    updateVisualizador(id){
+        let node = this.getNodebyID(id);
+        this.setState({
+            visualizador: node
+        })
     }
 
     handleCommand(value) {
@@ -96,24 +100,14 @@ class PrincipalCpu extends React.Component {
         console.log(this.test);
         console.log("this.consoleCommand");
         console.log(this.consoleCommand);
-        // if (this.consoleCommand.toString() == "add") {
-        //     this.setState(
-        //         {
-        //             output: "hi teacher"
-        //         }
-        //     )
-        // } else {
-        //     this.setState(
-        //         {
-        //             output: ""
-        //         }
-        //     )
-        // }
+
     }
 
     handleParam1(value) {
         this.param1 = value;
-
+        console.log("partici --> " + this.state.nodosParticipantes.length)
+        var data = this.param1 / this.state.nodosParticipantes.length
+        console.log("data --> " + data)
     }
 
     handleParam2(value) {
@@ -130,6 +124,10 @@ class PrincipalCpu extends React.Component {
         this.param4 = value;
 
     }
+
+
+
+
     handleInstruction(){
         console.log(this.consoleCommand);
         console.log("hellllllooooo" + this.NumberOfNodes)
@@ -154,7 +152,16 @@ class PrincipalCpu extends React.Component {
     add(val, val2) {
         return val + val2;
     }
-
+    openModal(){
+        this.setState({
+            showModal: !this.state.showModal
+        })
+    }
+    closeModal(){
+        this.setState({
+            showModal: false
+        })
+    }
 
     render() {
         return (
@@ -172,7 +179,25 @@ class PrincipalCpu extends React.Component {
                         <h1>Processor Speed</h1>
                         <p>{this.state.hz} Hz</p>
                     </div>
-
+                    <div id="visualizador" className="cardpersonalizada" >
+                        <h6>PRE-VISUALIZADOR</h6>
+                        <div className="container">
+                            <div className="row">
+                                <img src={PCmessages} className="column" />
+                                <label className="column labelpersonalizada" ref="visualizadorINFO" onClick={this.openModal}>{this.state.visualizador.toString()}</label>
+                                <Modal show ={this.state.showModal} onHide={this.closeModal}>
+                                    <Modal.Header closeButton>
+                                    </Modal.Header>
+                                    <Modal.Body id="modalbody">
+                                        <InfoV node = {this.state.visualizador} onClose ={this.closeModal}></InfoV>
+                                    </Modal.Body>
+                                </Modal>
+                            </div>
+                        </div>
+                        <select type="select" className="form-control" onChange={(e)=>this.updateVisualizador(e.target.value)}>
+                            {this.state.nodosParticipantes.map((node, key) => { return <option key={node.getId()} value={node.getId()} >Nodo {node.getId()} : {node.getMaker()} </option>; })}
+                        </select>
+                    </div>
                 </div>
 
                 <div id="mainConsole" className="card">

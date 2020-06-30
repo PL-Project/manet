@@ -1,3 +1,8 @@
+import AMD from '../images/Makers/AMD.png'
+import DELL from '../images/Makers/DELL.PNG'
+import INTEL from '../images/Makers/INTEL.png'
+import QUALCOMM from '../images/Makers/QUALCOMM.png'
+
 class NodeInfo {
 
     constructor(id, ram, hhd, cpu, hz, maker,instructions, participation){
@@ -9,6 +14,7 @@ class NodeInfo {
         this.hhd = hhd;
         this.maker = maker;
         this.instructions = instructions;
+        this.image = ""
     }
 
     getId(){
@@ -43,6 +49,32 @@ class NodeInfo {
             ", Disco Duro: " + this.hhd +" GB";
     }
 
+    setImageSrc(src){
+        this.image = new Image();
+
+
+        switch (src) {
+            case "AMD":
+                this.image.src =AMD;
+                break;
+            case "INTEL":
+                this.image.src =INTEL;
+                break;
+            case "QUALCOMM":
+                this.image.src =QUALCOMM;
+                break;
+            case "DELL":
+                this.image.src =DELL;
+                break;
+            default:
+                this.image.src =AMD;
+                break;
+        }
+        return this.image;
+    }
+    getImage(){
+        return this.image;
+    }
 }
 
 export default NodeInfo;
