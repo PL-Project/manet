@@ -1,17 +1,25 @@
 import React from 'react';
 import Manet from './components/Manet'
-import NodeList from './components/NodeList'
+import NavbarTop from "./components/NavbarTop";
+import {BrowserRouter as Router, Route} from 'react-router-dom';
+import PrincipalCpu from "./components/PrincipalCpu";
 import './css/app.css'
 class App extends React.Component {
   render(){
     return (
-      <div id="app" className="container">
-
-        <div className="container row">
-            <Manet className="column"/>
-            <NodeList className="column"/>
+        <div>
+            <div className="column wrapper">
+                <Router>
+                    <div id="content">
+                        <div className="container-fluid">
+                            <NavbarTop/>
+                            <Route path="/Manet" component={Manet}></Route>
+                            <Route path="/MainCpu" component={PrincipalCpu}></Route>
+                        </div>
+                    </div>
+                </Router>
+            </div>
         </div>
-      </div>
     );
   }
 }
