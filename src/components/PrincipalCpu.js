@@ -209,7 +209,7 @@ class PrincipalCpu extends React.Component {
 
 
         if(this.consoleCommand.toString() == "setRegister0"){
-            if(typeof (this.param1) == typeof (0)){
+            if(!isNaN(this.param1)){
                 var data = this.param1/this.state.nodosParticipantes.length
 
 
@@ -221,7 +221,7 @@ class PrincipalCpu extends React.Component {
                     output : total
                 })
             }
-            else if(typeof(this.param1)  == typeof ("string")){
+            else if(typeof this.param1  === typeof "string"){
                 var divNumber = Math.ceil(this.param1.length / this.state.nodosParticipantes.length)
                 var data = this.param1.match(new RegExp('.{1,' + divNumber.toString() + '}', 'g'));
                 console.log("data --->>>>" + data)
@@ -239,7 +239,7 @@ class PrincipalCpu extends React.Component {
         }
         if(this.consoleCommand.toString() == "setRegister1"){
 
-            if(typeof (this.param1)  == typeof (0)){
+            if(!isNaN(this.param1)){
                 var data = this.param1/this.state.nodosParticipantes.length
 
 
@@ -251,7 +251,7 @@ class PrincipalCpu extends React.Component {
                     output : total
                 })
             }
-            else if(typeof(this.param1)  == typeof ("string")){
+            else if(typeof this.param1  === typeof "string"){
                 var divNumber = Math.ceil(this.param1.length / this.state.nodosParticipantes.length)
                 var data = this.param1.match(new RegExp('.{1,' + divNumber.toString() + '}', 'g'));
 
@@ -270,7 +270,7 @@ class PrincipalCpu extends React.Component {
             }
         }
         if(this.consoleCommand.toString() == "setRegister2"){
-            if(typeof(this.param1)  == typeof (0)){
+            if(!isNaN(this.param1)){
                 var data = this.param1 / this.state.nodosParticipantes.length
 
                 for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
@@ -281,7 +281,7 @@ class PrincipalCpu extends React.Component {
                     output : total
                 })
             }
-            else if(typeof(this.param1)  == typeof ("string")){
+            else if(typeof this.param1  === typeof "string"){
                 // var data = this.param1.match(new RegExp('.{1,' + this.param1.length / this.state.nodosParticipantes.length + '}', 'g'));
                 var divNumber = Math.ceil(this.param1.length / this.state.nodosParticipantes.length)
                 var data = this.param1.match(new RegExp('.{1,' + divNumber.toString() + '}', 'g'));
@@ -306,7 +306,7 @@ class PrincipalCpu extends React.Component {
             // this.setState({
             //     output : total
             // })
-            if(typeof(this.param1)  == typeof (0)){
+            if(!isNaN(this.param1)){
                 var data = this.param1/this.state.nodosParticipantes.length
 
 
@@ -318,7 +318,7 @@ class PrincipalCpu extends React.Component {
                     output : total
                 })
             }
-            else if(typeof(this.param1)  == typeof ("string")){
+            else if(typeof this.param1 === 'number' ){
                 // var data = this.param1.match(new RegExp('.{1,' + this.param1.length / this.state.nodosParticipantes.length + '}', 'g'));
                 var divNumber = Math.ceil(this.param1.length / this.state.nodosParticipantes.length)
                 var data = this.param1.match(new RegExp('.{1,' + divNumber.toString() + '}', 'g'));
@@ -363,7 +363,7 @@ class PrincipalCpu extends React.Component {
             }
         }
         else{
-            data = parseInt(this.param1)
+            data = this.param1
         }
 
         if(this.param2.toString() == "register0"){
@@ -391,7 +391,7 @@ class PrincipalCpu extends React.Component {
             }
         }
         else{
-            data += parseInt(this.param2)
+            data += this.param2
         }
         return data
     }
