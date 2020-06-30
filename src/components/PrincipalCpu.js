@@ -105,13 +105,21 @@ class PrincipalCpu extends React.Component {
 
     handleParam1(value) {
         this.param1 = value;
-        console.log("partici --> " + this.state.nodosParticipantes.length)
+
         var data = this.param1 / this.state.nodosParticipantes.length
+
         console.log("data --> " + data)
+        for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+            this.state.nodosParticipantes[i].setStoreNum(data)
+        }
     }
 
     handleParam2(value) {
         this.param2 = value;
+        var data = this.param2 / this.state.nodosParticipantes.length
+        for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+            this.state.nodosParticipantes[i].setStoreNum(this.state.nodosParticipantes[i].getStoreNum() + data)
+        }
 
     }
 
@@ -138,19 +146,25 @@ class PrincipalCpu extends React.Component {
         //
         // }
         if(this.consoleCommand.toString() == "add"){
-            console.log(this.param1);
-            console.log(this.param2);
-            var total = this.add(parseInt(this.param1), parseInt(this.param2));
+
+            var total = this.add();
             console.log(total);
 
 
             this.setState({
                  output : total
             })
+
         }
     }
-    add(val, val2) {
-        return val + val2;
+    add() {
+
+        var data = 0
+        for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+            console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+            data += this.state.nodosParticipantes[i].getStoreNum()
+        }
+        return data
     }
     openModal(){
         this.setState({

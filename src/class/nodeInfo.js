@@ -15,11 +15,17 @@ class NodeInfo {
         this.maker = maker;
         this.instructions = instructions;
         this.image = ""
-        // this.storeNum = 0
+        this.storeNum = 0
     }
 
     getId(){
         return this.id;
+    }
+    getStoreNum(){
+        return this.storeNum;
+    }
+    setStoreNum(val){
+       this.storeNum = val;
     }
     getMaker(){
         return this.maker;
