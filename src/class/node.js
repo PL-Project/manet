@@ -407,11 +407,7 @@ class Node {
     getOpenHandshake(){
         return this.openHandshake;
     }
-
-    getParticipation(){
-        return this.participation;
-    }
-
+    
     setTrueParticipation(){
         this.participation = true;
     }

@@ -3,6 +3,7 @@ import Manet from './components/Manet'
 import NavbarTop from "./components/NavbarTop";
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import PrincipalCpu from "./components/PrincipalCpu";
+import Log from './components/LogPage';
 import './css/app.css'
 class App extends React.Component {
   render(){
@@ -15,6 +16,8 @@ class App extends React.Component {
                             <NavbarTop/>
                             <Route path="/Manet" component={Manet}></Route>
                             <Route path="/MainCpu" component={PrincipalCpu}></Route>
+                            <Route path="/Log" component={Log}></Route>
+
                         </div>
                     </div>
                 </Router>

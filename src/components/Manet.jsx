@@ -3,10 +3,12 @@ import React from 'react';
 //components
 import Info from './Info';
 import LinkTable from './LinkTable';
+import LogPage from './LogPage';
 //js clases
 import Node from '../class/node';
 import NodeInfo from '../class/nodeInfo';
 import Link from '../class/link';
+import manetLog from '../class/log.js';
 import Message from '../class/message';
 //modal bootstrap
 import {Modal} from 'react-bootstrap';
@@ -21,6 +23,9 @@ import {Link as Linking} from 'react-router-dom';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 import link from '../class/link';
+
+
+const mLog = new manetLog();
 
 class Manet extends React.Component {
 
@@ -41,6 +46,8 @@ class Manet extends React.Component {
         this.sendMessage = this.sendMessage.bind(this);
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.openMlog = this.openMlog.bind(this);
+        this.closeMlog = this.closeMlog.bind(this);
         this.openMTable = this.openMTable.bind(this);
         this.closeMTable = this.closeMTable.bind(this);
 
@@ -55,6 +62,7 @@ class Manet extends React.Component {
             Totalhz : 0,
             Totalhhd : 0,
             linkArray: [],
+            logArray: [],
             canvas: [],
             reqAnimation: 0,
             On: false,
@@ -63,7 +71,8 @@ class Manet extends React.Component {
             emisor:[],
             receptor: [],
             showModal: false,
-            showMTable: false
+            showMTable: false,
+            showMLog: false
             
 
  
@@ -105,6 +114,7 @@ class Manet extends React.Component {
     }
 
     clear(){
+        mLog.clearLog();
         this.refs.textMessage.value='';
         this.state.canvas.clearRect(0,0,this.state.width,this.state.height)
         window.cancelAnimationFrame(this.state.reqAnimation)
@@ -122,7 +132,9 @@ class Manet extends React.Component {
         })
     }
 
-    init() {
+    init() {        
+        mLog.writeToLog("Log iniciado")
+        mLog.writeToLog("Simulacion iniciada")
         let numNodes = Math.floor(Math.abs(this.refs.numNodes.value))
         this.state.nodeArray = []
         let nodos = []
@@ -140,6 +152,9 @@ class Manet extends React.Component {
                 this.state.Totalhz += nodos[i].hz;
             }
         }
+
+        this.state.nodeArray = nodos;
+        this.state.log = mLog;
 
 
         this.state.nodeArray = nodos
@@ -197,16 +212,14 @@ class Manet extends React.Component {
                     let distance= Math.sqrt(Math.pow(nodeArray[i].getX()-nodeArray[j].getX(),2)+Math.pow(nodeArray[i].getY()-nodeArray[j].getY(),2));
                     if(distance<300){
                         //console.log("In distance "+ nodeArray[i].getId() + nodeArray[j].getId());
-                        if(nodeArray[i].getOpenHandshake()){
-                            //console.log("Nodo "+ nodeArray[i].getId()+" solicita conexión a nodo "+nodeArray[j].getId() );
+                        if(nodeArray[i].getOpenHandshake()){                            
                             linkArray.push(new Link(nodeArray[i],nodeArray[j],"red"));
                             //console.log("New Link");
-                            if(nodeArray[j].getOpenHandshake()){
-                                //console.log("Nodo "+ nodeArray[j].getId()+" acepta conexión con nodo "+nodeArray[i].getId() );
+                            if(nodeArray[j].getOpenHandshake()){                                                            
                                 linkArray.pop();
                                 linkArray.push(new Link(nodeArray[i],nodeArray[j],"green"));
                             } else {
-                                //console.log("Nodo "+ nodeArray[j].getId()+" rechaza conexión con nodo "+nodeArray[i].getId() ); 
+                                //mLog.writeToLog("Nodo "+ nodeArray[j].getId()+" rechaza conexión con nodo "+nodeArray[i].getId() );                            
                             }
                         }
                         
@@ -266,6 +279,18 @@ class Manet extends React.Component {
             showModal: false
         })
     }
+
+    openMlog(){
+        this.setState({
+            showMLog: !this.state.showMLog
+        })
+    }
+    closeMlog(){
+        this.setState({
+            showMLog: false
+        })
+    }
+
     openMTable(){
         this.setState({
             showMTable: !this.state.showMTable
@@ -311,8 +336,9 @@ class Manet extends React.Component {
                                     onClickCapture={this.start}>Animar
                             </button>
                             <button type="button" className="btn col-sm-3 btn-primary "
-                                    onClickCapture={this.clear}>Limpiar
+                                    onClickCapture={this.clear} >Limpiar
                             </button>
+                                                    
                             <Linking type="onClick" className="btn col-sm-3 btn-primary"
                                 to={{
                                     pathname:'/MainCpu',
@@ -327,7 +353,15 @@ class Manet extends React.Component {
                                 
                                 }}>MainCpu </Linking>
 
-
+                            <button type="button" className="btn col-sm-3 btn-primary" onClick={this.openMlog}>Log</button>
+                            <Modal show ={this.state.showMLog} onHide={this.closeMlog}>
+                                        <Modal.Header closeButton>
+                                        </Modal.Header>
+                                        <Modal.Body>
+                                            <LogPage log={this.state.logArray}></LogPage>
+                                        </Modal.Body>
+                                    </Modal>
+                            
                         </div>
                     </div>
                 </div>
@@ -356,6 +390,9 @@ class Manet extends React.Component {
                                 {this.state.nodeArray.map((node, key) => { return <option key={node.getId()} value={node.getId()} >Nodo {node.getId()} : {node.getMaker()} </option>; })} 
                             </select>
                         </div>
+                         
+                        
+
                         <div id="mensajes" className="cardpersonalizada" >
                             <h6>MENSAJES</h6>
                             <div className="container">
@@ -380,7 +417,7 @@ class Manet extends React.Component {
                                     <textarea ref="textMessage"className="form-control" rows="1" ></textarea>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
 
                     </div>
                     <div id="piemsj" className="card-footer">

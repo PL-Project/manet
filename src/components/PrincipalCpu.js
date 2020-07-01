@@ -4,8 +4,10 @@ import PCmessages from "../images/PCMSM.png";
 import {Modal} from "react-bootstrap";
 import InfoV from "./InfoV";
 import NodeInfo from "../class/nodeInfo";
+import manetLog from '../class/log';
+import LogPage from './LogPage';
 
-
+var mLog = new manetLog();
 class PrincipalCpu extends React.Component {
     constructor(props) {
         super(props);
@@ -18,7 +20,8 @@ class PrincipalCpu extends React.Component {
         this.param4 = "";
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
-
+        this.openMlog = this.openMlog.bind(this);
+        this.closeMlog = this.closeMlog.bind(this);
     }
 
     state = {
@@ -35,7 +38,8 @@ class PrincipalCpu extends React.Component {
         visualizador: "",
         nodosParticipantes: [],
         showModal: false,
-        showMTable: false
+        showMTable: false,
+        showMLog: false
 
     }
 
@@ -85,6 +89,16 @@ class PrincipalCpu extends React.Component {
                 return this.state.nodes[i]
             }
         }
+    }
+    openMlog(){
+        this.setState({
+            showMLog: !this.state.showMLog
+        })
+    }
+    closeMlog(){
+        this.setState({
+            showMLog: false
+        })
     }
 
     updateVisualizador(id){
@@ -216,6 +230,8 @@ class PrincipalCpu extends React.Component {
                 for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
                     this.state.nodosParticipantes[i].getRegisters()[0] = data
                     // console.log("registers" + this.state.nodosParticipantes[i].getRegisters()[0])
+                    
+                    
                 }
                 this.setState({
                     output : total
@@ -236,6 +252,7 @@ class PrincipalCpu extends React.Component {
                 }
 
             }
+            mLog.writeToLog("Register0 set to: " + data);
         }
         if(this.consoleCommand.toString() == "setRegister1"){
 
@@ -246,7 +263,10 @@ class PrincipalCpu extends React.Component {
                 for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
                     this.state.nodosParticipantes[i].getRegisters()[1] = data
                     // console.log("registers" + this.state.nodosParticipantes[i].getRegisters()[0])
+                    
+                   
                 }
+                
                 this.setState({
                     output : total
                 })
@@ -268,6 +288,7 @@ class PrincipalCpu extends React.Component {
                     // this.state.nodosParticipantes[i].getRegisters()[1] = data[i]
                 }
             }
+            mLog.writeToLog("Register1 set to: " + data);
         }
         if(this.consoleCommand.toString() == "setRegister2"){
             if(!isNaN(this.param1)){
@@ -295,6 +316,7 @@ class PrincipalCpu extends React.Component {
                     // this.state.nodosParticipantes[i].getRegisters()[2] = data[i]
                 }
             }
+            mLog.writeToLog("Register2 set to: " + data);
         }
         if(this.consoleCommand.toString() == "setRegister3"){
             // var data = this.param1/this.state.nodosParticipantes.length
@@ -332,6 +354,7 @@ class PrincipalCpu extends React.Component {
                     }
                 }
             }
+            mLog.writeToLog("Register3 set to: " + data);
         }
 
 
@@ -340,6 +363,7 @@ class PrincipalCpu extends React.Component {
         var data = 0
         if(this.param1.toString() == "register0"){
             for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+
                 // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
                 data += this.state.nodosParticipantes[i].getRegisters()[0]
             }
@@ -393,6 +417,7 @@ class PrincipalCpu extends React.Component {
         else{
             data += this.param2
         }
+        mLog.writeToLog("add = " + data);
         return data
     }
     multiply() {
@@ -454,6 +479,7 @@ class PrincipalCpu extends React.Component {
         else{
             data2 += parseInt(this.param2)
         }
+        mLog.writeToLog("multiply = " + (data*data2));
         return data * data2
     }
     substract() {
@@ -515,6 +541,7 @@ class PrincipalCpu extends React.Component {
         else{
             data2 += parseInt(this.param2)
         }
+        mLog.writeToLog("substract = " + (data-data2));
         return data - data2
     }
     divide() {
@@ -576,6 +603,7 @@ class PrincipalCpu extends React.Component {
         else{
             data2 += parseInt(this.param2)
         }
+        mLog.writeToLog("divide = " + (data/data2));
         return data / data2
     }
     concat() {
@@ -634,6 +662,7 @@ class PrincipalCpu extends React.Component {
         else{
             data += (this.param2)
         }
+        mLog.writeToLog("concat = " + data);
         return data
     }
     openModal(){
@@ -669,13 +698,7 @@ class PrincipalCpu extends React.Component {
                             <div className="row">
                                 <img src={PCmessages} className="column" />
                                 <label className="column labelpersonalizada" ref="visualizadorINFO" onClick={this.openModal}>{this.state.visualizador.toString()}</label>
-                                <Modal show ={this.state.showModal} onHide={this.closeModal}>
-                                    <Modal.Header closeButton>
-                                    </Modal.Header>
-                                    <Modal.Body id="modalbody">
-                                        <InfoV node = {this.state.visualizador} onClose ={this.closeModal}></InfoV>
-                                    </Modal.Body>
-                                </Modal>
+                                
                             </div>
                         </div>
                         <select type="select" className="form-control" onChange={(e)=>this.updateVisualizador(e.target.value)}>
@@ -726,6 +749,15 @@ class PrincipalCpu extends React.Component {
                                 </div>
 
                                 <button type="reset" className="btn col-sm-3 btn-primary " onClick="ClearFields();">Clear</button>
+                                
+                                <button type="button" className="btn col-sm-3 btn-primary" onClick={this.openMlog}>Log</button>
+                                    <Modal show ={this.state.showMLog} onHide={this.closeMlog}>
+                                        <Modal.Header closeButton>
+                                        </Modal.Header>
+                                        <Modal.Body>
+                                            <LogPage log={this.state.logArray}></LogPage>
+                                        </Modal.Body>
+                                    </Modal>
                             </form>
 
 

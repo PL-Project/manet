@@ -1,0 +1,96 @@
+#big{
+    width: 100%;
+    height: 100%;
+    padding: 1%;
+    position: relative;
+}
+#specificationBox{
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.57);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.57);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.57);
+
+    margin-right: 1%;
+    border-radius: 15px 15px 15px 15px;
+    border-style: solid;
+    border-width: 2px;
+    width: 40%;
+    height: auto;
+    position: relative;
+}
+#bodycard{
+    width: auto;
+    height: auto;
+    position: relative;
+    align-content: center;
+}
+#manet{
+    border-radius: 5px 5px 5px 5px;
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+}
+#footercard{
+    padding-top: 1%;
+    padding-right: 1%;
+}
+.btn{
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.57);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.57);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.57);
+}
+.col-sm-3{
+
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.57);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.57);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.57);
+
+    margin-right: 1%;
+}
+
+#mainConsole{
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.57);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.57);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.57);
+
+    border-radius: 15px 15px 15px 15px;
+    border-style: solid;
+    border-width: 0px;
+    width: 59%;
+    height: auto;
+    position: relative;
+}
+#bodymensaje{
+    padding: 2%;
+    position: relative;
+}
+.cardpersonalizada{
+    -webkit-box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.57);
+    -moz-box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.57);
+    box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.57);
+
+    border-radius: 5px 5px 5px 5px;
+    margin-bottom: 1%;
+    padding:4%;
+    padding-bottom: 9%;
+
+    width: 100%;
+    height:50%;
+    position: relative;
+}
+.labelpersonalizada{
+    max-width: 40%;
+    text-align: left;
+    margin-left: 6%;
+    font-size: 99%;
+}
+.imagenpersonalizada{
+    margin-left: 3%;
+}
+#enviarmsj{
+    max-width: 100%;
+}
+#piemsj{
+    padding: 2%;
+    position: relative;
+}
