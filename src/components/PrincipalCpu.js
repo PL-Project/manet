@@ -1,25 +1,31 @@
 import React from 'react';
-import Node from '../class/node'
 import '../css/principalCpu.css'
+import PCmessages from "../images/PCMSM.png";
+import {Modal} from "react-bootstrap";
+import InfoV from "./InfoV";
+import NodeInfo from "../class/nodeInfo";
+import manetLog from '../class/log';
+import LogPage from './LogPage';
 
+var mLog = new manetLog();
 class PrincipalCpu extends React.Component {
     constructor(props) {
         super(props);
         this.consoleCommand = "";
+        this.nodes = this.props.location.state.nodes;
+        this.NumberOfNodes = this.props.location.state.NumberOfNodes;
         this.param1 = "";
         this.param2 = "";
         this.param3 = "";
         this.param4 = "";
-        //this.test =this.props.location.state.test;
-        //this.nodes = this.props.location.state.nodeArray;
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+        this.openMlog = this.openMlog.bind(this);
+        this.closeMlog = this.closeMlog.bind(this);
     }
 
-    // this.ram = randomRAM()
-    // this.cpu = randomCPU()
-    // this.hz = randomHZ();
-    // this.hhd = randomHHD()
     state = {
-        nodes:  [],
+        nodes:  this.props.location.state.nodes,
         ram: Number,
         cpu: Number,
         hz: Number,
@@ -28,7 +34,13 @@ class PrincipalCpu extends React.Component {
         value1: Number,
         value2: Number,
         newVal: "",
-        output: ""
+        output: "",
+        visualizador: "",
+        nodosParticipantes: [],
+        showModal: false,
+        showMTable: false,
+        showMLog: false
+
     }
 
     async componentDidMount() {
@@ -38,83 +50,101 @@ class PrincipalCpu extends React.Component {
             let width = 500;
             let height = 500;
 
-            // this.state.nodes.push(new Node(width, height, 100 / 2));
         }
-
-        this.setState({
-            nodes : this.nodes
-        })
-        var i;
-        // this.ram = randomRAM()
-        // this.cpu = randomCPU()
-        // this.hz = randomHZ();
-        // this.hhd = randomHHD()
-        //var totalRam = 0;
-        //var totalCpu = 0;
-        //var totalHz = 0;
-        //var totalHhd = 0;
-        //if (this.state.nodes.length > 0) {
-        //    for (i = 0; i < this.state.nodes.length; i++) {
-        //        if (this.state.nodes[i].participation == 1) {
-
-        //            totalRam += this.state.nodes[i].ram;
-        //            totalCpu += this.state.nodes[i].cpu;
-        //            totalHz += this.state.nodes[i].hz;
-        //            totalHhd += this.state.nodes[i].hhd;
-
-        //            if (i == this.state.nodes.length - 1) {
-        //                this.setState({
-        //                    ram: totalRam
-        //                });
-        //                this.setState({
-        //                    cpu: totalCpu
-        //                });
-        //                this.setState({
-        //                    hz: totalHz
-        //                });
-        //                this.setState({
-        //                    hhd: totalHhd
-        //                });
-        //                break;
-        //            }
-        //        }
-        //    }
-        //}
+        //
+        // this.setState({
+        //     nodes : this.nodes
+        // })
+        //
 
         this.state.ram = this.props.location.state.RAM;
         this.state.cpu = this.props.location.state.cpu;
         this.state.hhd = this.props.location.state.Hhd;
         this.state.hz = this.props.location.state.hz;
+
+        this.setState({
+            visualizador : this.nodes[0]
+        })
+        // console.log(this.nodes.length + "---------------------------------")
+        // console.log(this.state.nodes.length + "*****************")
+        for (let i = 0; i < this.state.nodes.length; i++) {
+            // console.log(typeof(this.state.nodes[i].getParticipation()) + "---dasdasdasdasd" )
+
+            if(this.state.nodes[i].getParticipation() == 1){
+
+                // console.log(this.state.nodes[i].getMaker() + " MAKER")
+                this.state.nodosParticipantes.push(this.state.nodes[i]);
+
+            }
+        }
+        for (let i = 0; i < this.state.nodosParticipantes.length; i++){
+            // console.log("*-*-*-*-- "+ this.state.nodosParticipantes[i].getMaker())
+            this.state.nodosParticipantes[i].setImageSrc(this.state.nodosParticipantes[i].getMaker());
+        }
+
+    }
+    getNodebyID(id) {
+        for (let i = 0; i < this.state.nodes.length; i++) {
+            if (id == this.state.nodes[i].getId()) {
+                return this.state.nodes[i]
+            }
+        }
+    }
+    openMlog(){
+        this.setState({
+            showMLog: !this.state.showMLog
+        })
+    }
+    closeMlog(){
+        this.setState({
+            showMLog: false
+        })
+    }
+
+    updateVisualizador(id){
+        let node = this.getNodebyID(id);
+        this.setState({
+            visualizador: node
+        })
     }
 
     handleCommand(value) {
         this.consoleCommand = value;
-        console.log("this.consoleCommand");
-        console.log(this.test);
-        console.log("this.consoleCommand");
-        console.log(this.consoleCommand);
-        // if (this.consoleCommand.toString() == "add") {
-        //     this.setState(
-        //         {
-        //             output: "hi teacher"
-        //         }
-        //     )
-        // } else {
-        //     this.setState(
-        //         {
-        //             output: ""
-        //         }
-        //     )
-        // }
+        // console.log("this.consoleCommand");
+        // console.log(this.test);
+        // console.log("this.consoleCommand");
+        // console.log(this.consoleCommand);
+
     }
 
     handleParam1(value) {
         this.param1 = value;
+        // if(typeof value === "number"){
+        //     var data = this.param1 / this.state.nodosParticipantes.length
+        //
+        //     // console.log("data --> " + data)
+        //     for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+        //         this.state.nodosParticipantes[i].setStoreNum(data)
+        //     }
+        // }
+        // else if(typeof value === "string"){
+        //     data = value.match(new RegExp('.{1,' + value.length / this.state.nodosParticipantes.length + '}', 'g'));
+        //     for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+        //         this.state.nodosParticipantes[i].setStoreNum(data)
+        //     }
+        // }
+
 
     }
 
     handleParam2(value) {
+
         this.param2 = value;
+        // var data = this.param2 / this.state.nodosParticipantes.length
+        //
+        // for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+        //     this.state.nodosParticipantes[i].setStoreNum(this.state.nodosParticipantes[i].getStoreNum() + data)
+        // }
 
     }
 
@@ -127,24 +157,524 @@ class PrincipalCpu extends React.Component {
         this.param4 = value;
 
     }
-    handleInstruction(){
-        console.log(this.consoleCommand);
-        if(this.consoleCommand.toString() == "add"){
-            console.log(this.param1);
-            console.log(this.param2);
-            var total = this.add(parseInt(this.param1), parseInt(this.param2));
-            console.log(total);
 
+
+
+
+    handleInstruction(){
+        // console.log(this.consoleCommand);
+        // console.log("hellllllooooo" + this.NumberOfNodes)
+        // console.log("test maker" + this.nodes[1].getMaker())
+
+        // for(this.state.NumberOfNodes){
+        //
+        //
+        // }
+        if(this.consoleCommand.toString() == "add"){
+
+            var total = this.add();
+            // console.log(total);
 
             this.setState({
                  output : total
             })
-        }
-    }
-    add(val, val2) {
-        return val + val2;
-    }
 
+        }
+        if(this.consoleCommand.toString() == "multiply"){
+
+            var total = this.multiply();
+            // console.log(total);
+
+            this.setState({
+                output : total
+            })
+
+        }
+        if(this.consoleCommand.toString() == "substract"){
+
+            var total = this.substract();
+            // console.log(total);
+
+            this.setState({
+                output : total
+            })
+
+        }
+        if(this.consoleCommand.toString() == "divide"){
+
+            var total = this.divide();
+            // console.log(total);
+
+            this.setState({
+                output : total
+            })
+
+        }
+        if(this.consoleCommand.toString() == "concat"){
+
+            var total = this.concat();
+            // console.log(total);
+
+            this.setState({
+                output : total
+            })
+
+        }
+
+
+        if(this.consoleCommand.toString() == "setRegister0"){
+            if(!isNaN(this.param1)){
+                var data = this.param1/this.state.nodosParticipantes.length
+
+
+                for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                    this.state.nodosParticipantes[i].getRegisters()[0] = data
+                    // console.log("registers" + this.state.nodosParticipantes[i].getRegisters()[0])
+                    
+                    
+                }
+                this.setState({
+                    output : total
+                })
+            }
+            else if(typeof this.param1  === typeof "string"){
+                var divNumber = Math.ceil(this.param1.length / this.state.nodosParticipantes.length)
+                var data = this.param1.match(new RegExp('.{1,' + divNumber.toString() + '}', 'g'));
+                console.log("data --->>>>" + data)
+                console.log("data_length --->>>>" + data.length)
+                for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                    if(data.length < i + 1){
+                        this.state.nodosParticipantes[i].getRegisters()[0] = ""
+                    }else{
+                        this.state.nodosParticipantes[i].getRegisters()[0] = data[i]
+                    }
+
+                }
+
+            }
+            mLog.writeToLog("Register0 set to: " + data);
+        }
+        if(this.consoleCommand.toString() == "setRegister1"){
+
+            if(!isNaN(this.param1)){
+                var data = this.param1/this.state.nodosParticipantes.length
+
+
+                for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                    this.state.nodosParticipantes[i].getRegisters()[1] = data
+                    // console.log("registers" + this.state.nodosParticipantes[i].getRegisters()[0])
+                    
+                   
+                }
+                
+                this.setState({
+                    output : total
+                })
+            }
+            else if(typeof this.param1  === typeof "string"){
+                var divNumber = Math.ceil(this.param1.length / this.state.nodosParticipantes.length)
+                var data = this.param1.match(new RegExp('.{1,' + divNumber.toString() + '}', 'g'));
+
+                // var data = this.param1.match(new RegExp('.{1,' + this.param1.length / this.state.nodosParticipantes.length + '}', 'g'));
+                console.log("data 1 --->>>>" + data)
+                console.log("data_length 1 --->>>>" + data.length)
+                for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                    if(data.length < i + 1){
+                        this.state.nodosParticipantes[i].getRegisters()[1] = ""
+                    }else{
+                        this.state.nodosParticipantes[i].getRegisters()[1] = data[i]
+                    }
+                    // console.log("posicion 1" + this.state.nodosParticipantes[i].getRegisters()[1])
+                    // this.state.nodosParticipantes[i].getRegisters()[1] = data[i]
+                }
+            }
+            mLog.writeToLog("Register1 set to: " + data);
+        }
+        if(this.consoleCommand.toString() == "setRegister2"){
+            if(!isNaN(this.param1)){
+                var data = this.param1 / this.state.nodosParticipantes.length
+
+                for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                    this.state.nodosParticipantes[i].getRegisters()[2] = data
+                    // console.log("registers" + this.state.nodosParticipantes[i].getRegisters()[0])
+                }
+                this.setState({
+                    output : total
+                })
+            }
+            else if(typeof this.param1  === typeof "string"){
+                // var data = this.param1.match(new RegExp('.{1,' + this.param1.length / this.state.nodosParticipantes.length + '}', 'g'));
+                var divNumber = Math.ceil(this.param1.length / this.state.nodosParticipantes.length)
+                var data = this.param1.match(new RegExp('.{1,' + divNumber.toString() + '}', 'g'));
+
+                for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                    if(data.length < i + 1){
+                        this.state.nodosParticipantes[i].getRegisters()[2] = ""
+                    }else{
+                        this.state.nodosParticipantes[i].getRegisters()[2] = data[i]
+                    }
+                    // this.state.nodosParticipantes[i].getRegisters()[2] = data[i]
+                }
+            }
+            mLog.writeToLog("Register2 set to: " + data);
+        }
+        if(this.consoleCommand.toString() == "setRegister3"){
+            // var data = this.param1/this.state.nodosParticipantes.length
+            //
+            // for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+            //     this.state.nodosParticipantes[i].getRegisters()[3] = data
+            //
+            // }
+            // this.setState({
+            //     output : total
+            // })
+            if(!isNaN(this.param1)){
+                var data = this.param1/this.state.nodosParticipantes.length
+
+
+                for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                    this.state.nodosParticipantes[i].getRegisters()[3] = data
+                    // console.log("registers" + this.state.nodosParticipantes[i].getRegisters()[0])
+                }
+                this.setState({
+                    output : total
+                })
+            }
+            else if(typeof this.param1 === 'number' ){
+                // var data = this.param1.match(new RegExp('.{1,' + this.param1.length / this.state.nodosParticipantes.length + '}', 'g'));
+                var divNumber = Math.ceil(this.param1.length / this.state.nodosParticipantes.length)
+                var data = this.param1.match(new RegExp('.{1,' + divNumber.toString() + '}', 'g'));
+
+                for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                    // this.state.nodosParticipantes[i].getRegisters()[3] = data[i]
+                    if(data.length < i + 1){
+                        this.state.nodosParticipantes[i].getRegisters()[3] = ""
+                    }else{
+                        this.state.nodosParticipantes[i].getRegisters()[3] = data[i]
+                    }
+                }
+            }
+            mLog.writeToLog("Register3 set to: " + data);
+        }
+
+
+    }
+    add() {
+        var data = 0
+        if(this.param1.toString() == "register0"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[0]
+            }
+        }
+        else if(this.param1.toString() == "register1"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[1]
+            }
+        }
+        else if(this.param1.toString() == "register2"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[2]
+            }
+        }
+        else if(this.param1.toString() == "register3"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[3]
+            }
+        }
+        else{
+            data = this.param1
+        }
+
+        if(this.param2.toString() == "register0"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[0]
+            }
+        }
+        else if(this.param2.toString() == "register1"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[1]
+            }
+        }
+        else if(this.param2.toString() == "register2"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[2]
+            }
+        }
+        else if(this.param3.toString() == "register3"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[3]
+            }
+        }
+        else{
+            data += this.param2
+        }
+        mLog.writeToLog("add = " + data);
+        return data
+    }
+    multiply() {
+
+        var data = 0
+        var data2 = 0
+        if(this.param1.toString() == "register0"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[0]
+            }
+        }
+        else if(this.param1.toString() == "register1"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[1]
+            }
+        }
+        else if(this.param1.toString() == "register2"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[2]
+            }
+        }
+        else if(this.param1.toString() == "register3"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[3]
+            }
+        }
+        else{
+            data = parseInt(this.param1)
+        }
+
+        if(this.param2.toString() == "register0"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data2 += this.state.nodosParticipantes[i].getRegisters()[0]
+            }
+        }
+        else if(this.param2.toString() == "register1"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data2 += this.state.nodosParticipantes[i].getRegisters()[1]
+            }
+        }
+        else if(this.param2.toString() == "register2"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data2 += this.state.nodosParticipantes[i].getRegisters()[2]
+            }
+        }
+        else if(this.param3.toString() == "register3"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data2 += this.state.nodosParticipantes[i].getRegisters()[3]
+            }
+        }
+        else{
+            data2 += parseInt(this.param2)
+        }
+        mLog.writeToLog("multiply = " + (data*data2));
+        return data * data2
+    }
+    substract() {
+
+        var data = 0
+        var data2 = 0
+        if(this.param1.toString() == "register0"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[0]
+            }
+        }
+        else if(this.param1.toString() == "register1"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[1]
+            }
+        }
+        else if(this.param1.toString() == "register2"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[2]
+            }
+        }
+        else if(this.param1.toString() == "register3"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[3]
+            }
+        }
+        else{
+            data = parseInt(this.param1)
+        }
+
+        if(this.param2.toString() == "register0"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data2 += this.state.nodosParticipantes[i].getRegisters()[0]
+            }
+        }
+        else if(this.param2.toString() == "register1"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data2 += this.state.nodosParticipantes[i].getRegisters()[1]
+            }
+        }
+        else if(this.param2.toString() == "register2"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data2 += this.state.nodosParticipantes[i].getRegisters()[2]
+            }
+        }
+        else if(this.param3.toString() == "register3"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data2 += this.state.nodosParticipantes[i].getRegisters()[3]
+            }
+        }
+        else{
+            data2 += parseInt(this.param2)
+        }
+        mLog.writeToLog("substract = " + (data-data2));
+        return data - data2
+    }
+    divide() {
+
+        var data = 0
+        var data2 = 0
+        if(this.param1.toString() == "register0"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[0]
+            }
+        }
+        else if(this.param1.toString() == "register1"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[1]
+            }
+        }
+        else if(this.param1.toString() == "register2"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[2]
+            }
+        }
+        else if(this.param1.toString() == "register3"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[3]
+            }
+        }
+        else{
+            data = parseInt(this.param1)
+        }
+
+        if(this.param2.toString() == "register0"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data2 += this.state.nodosParticipantes[i].getRegisters()[0]
+            }
+        }
+        else if(this.param2.toString() == "register1"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data2 += this.state.nodosParticipantes[i].getRegisters()[1]
+            }
+        }
+        else if(this.param2.toString() == "register2"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data2 += this.state.nodosParticipantes[i].getRegisters()[2]
+            }
+        }
+        else if(this.param3.toString() == "register3"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data2 += this.state.nodosParticipantes[i].getRegisters()[3]
+            }
+        }
+        else{
+            data2 += parseInt(this.param2)
+        }
+        mLog.writeToLog("divide = " + (data/data2));
+        return data / data2
+    }
+    concat() {
+        var data = ""
+        if(this.param1.toString() == "register0"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[0]
+            }
+        }
+        else if(this.param1.toString() == "register1"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[1]
+            }
+        }
+        else if(this.param1.toString() == "register2"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[2]
+            }
+        }
+        else if(this.param1.toString() == "register3"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[3]
+            }
+        }
+        else{
+            data = this.param1
+        }
+        if(this.param2.toString() == "register0"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[0]
+            }
+        }
+        else if(this.param2.toString() == "register1"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[1]
+            }
+        }
+        else if(this.param2.toString() == "register2"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[2]
+            }
+        }
+        else if(this.param3.toString() == "register3"){
+            for (let i = 0; i < this.state.nodosParticipantes.length; i++) {
+                // console.log("dato a sumar" + this.state.nodosParticipantes[i].getStoreNum())
+                data += this.state.nodosParticipantes[i].getRegisters()[3]
+            }
+        }
+        else{
+            data += (this.param2)
+        }
+        mLog.writeToLog("concat = " + data);
+        return data
+    }
+    openModal(){
+        this.setState({
+            showModal: !this.state.showModal
+        })
+    }
+    closeModal(){
+        this.setState({
+            showModal: false
+        })
+    }
 
     render() {
         return (
@@ -162,7 +692,19 @@ class PrincipalCpu extends React.Component {
                         <h1>Processor Speed</h1>
                         <p>{this.state.hz} Hz</p>
                     </div>
-
+                    <div id="visualizador" className="cardpersonalizada" >
+                        <h6>PRE-VISUALIZADOR</h6>
+                        <div className="container">
+                            <div className="row">
+                                <img src={PCmessages} className="column" />
+                                <label className="column labelpersonalizada" ref="visualizadorINFO" onClick={this.openModal}>{this.state.visualizador.toString()}</label>
+                                
+                            </div>
+                        </div>
+                        <select type="select" className="form-control" onChange={(e)=>this.updateVisualizador(e.target.value)}>
+                            {this.state.nodosParticipantes.map((node, key) => { return <option key={node.getId()} value={node.getId()} >Nodo {node.getId()} : {node.getMaker()} </option>; })}
+                        </select>
+                    </div>
                 </div>
 
                 <div id="mainConsole" className="card">
@@ -207,6 +749,15 @@ class PrincipalCpu extends React.Component {
                                 </div>
 
                                 <button type="reset" className="btn col-sm-3 btn-primary " onClick="ClearFields();">Clear</button>
+                                
+                                <button type="button" className="btn col-sm-3 btn-primary" onClick={this.openMlog}>Log</button>
+                                    <Modal show ={this.state.showMLog} onHide={this.closeMlog}>
+                                        <Modal.Header closeButton>
+                                        </Modal.Header>
+                                        <Modal.Body>
+                                            <LogPage log={this.state.logArray}></LogPage>
+                                        </Modal.Body>
+                                    </Modal>
                             </form>
 
 

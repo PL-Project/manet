@@ -6,6 +6,7 @@ import LinkTable from './LinkTable';
 import LogPage from './LogPage';
 //js clases
 import Node from '../class/node';
+import NodeInfo from '../class/nodeInfo';
 import Link from '../class/link';
 import manetLog from '../class/log.js';
 import Message from '../class/message';
@@ -20,7 +21,7 @@ import {Link as Linking} from 'react-router-dom';
 
 
 import {BrowserRouter as Router, Route} from 'react-router-dom';
-import PrincipalCpu from "./PrincipalCpu";
+
 import link from '../class/link';
 
 
@@ -55,6 +56,7 @@ class Manet extends React.Component {
             width: Number,
             height: Number,
             nodeArray: [],
+            nodesInfo: [],
             TotalRAM : 0,
             Totalcpu : 0,
             Totalhz : 0,
@@ -118,6 +120,7 @@ class Manet extends React.Component {
         window.cancelAnimationFrame(this.state.reqAnimation)
         this.state.On = false
         this.state.nodeArray=[]
+        this.state.nodesInfo=[]
         this.state.visualizador=''
         this.state.emisor=[]
         this.state.receptor=[]
@@ -135,11 +138,14 @@ class Manet extends React.Component {
         let numNodes = Math.floor(Math.abs(this.refs.numNodes.value))
         this.state.nodeArray = []
         let nodos = []
+        let nodosInfo = []
         for (var i = 0; i < numNodes; i++) {
             let width = this.state.width;
             let height = this.state.height;
             nodos.push(new Node(width, height, 300 / this.scale(numNodes), i));
-            if(nodos[i].participation == true){
+            //constructor(id, ram, hhd, cpu, hz, maker,instructions, participation)
+            nodosInfo.push(new NodeInfo(nodos[i].getId(),nodos[i].getRam(),nodos[i].getHhd(), nodos[i].getCPU(), nodos[i].getHz(), nodos[i].getMaker(), nodos[i].getInstructions(), nodos[i].getParticipation()));
+            if(nodosInfo[i].participation == true){
                 this.state.TotalRAM += nodos[i].ram;
                 this.state.Totalcpu += nodos[i].cpu;
                 this.state.Totalhhd += nodos[i].hhd;
@@ -150,6 +156,9 @@ class Manet extends React.Component {
         this.state.nodeArray = nodos;
         this.state.log = mLog;
 
+
+        this.state.nodeArray = nodos
+        this.state.nodesInfo = nodosInfo
         this.setState({
             //obligo a actualizar las listas
         })
@@ -161,6 +170,8 @@ class Manet extends React.Component {
         }
 
     }
+
+
 
     animate() {
         this.state.canvas.clearRect(0, 0, this.state.width, this.state.height)
@@ -221,6 +232,14 @@ class Manet extends React.Component {
         this.state.linkArray = linkArray
         
     }   
+
+    // checkHandshake(node1,node2){
+    //     if(node1.getOpenHandshake() && node2.getOpenHandshake()){
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
 
     getNodebyID(id) {
         for (let i = 0; i < this.state.nodeArray.length; i++) {
@@ -328,7 +347,8 @@ class Manet extends React.Component {
                                         RAM: this.state.TotalRAM,
                                         cpu: this.state.Totalcpu,
                                         Hhd: this.state.Totalhhd,
-                                        hz: this.state.Totalhz
+                                        hz: this.state.Totalhz,
+                                        nodes: this.state.nodesInfo
                                     }
                                 
                                 }}>MainCpu </Linking>

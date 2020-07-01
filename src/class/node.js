@@ -210,6 +210,9 @@ class Node {
     getId(){
         return this.id;
     }
+    getParticipation(){
+        return this.participation;
+    }
     setId(id){
         this.id= id;
     }
@@ -404,11 +407,7 @@ class Node {
     getOpenHandshake(){
         return this.openHandshake;
     }
-
-    getParticipation(){
-        return this.participation;
-    }
-
+    
     setTrueParticipation(){
         this.participation = true;
     }
@@ -416,6 +415,7 @@ class Node {
     setFalseParticipation(){
         this.participation = false;
     }
+
 
     draw(ctx) {
         ctx.drawImage(this.image,this.x,this.y,this.size,this.size)

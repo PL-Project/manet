@@ -24,7 +24,7 @@ class LogPage extends Component{
                    <div id="bodycard" className="card-boddy">
                    <textarea className="form-control" type="text" 
                                 disabled
-                                defaultValue={mLog.getLog()} />
+                                defaultValue={mLog.getLog()} rows="25" />
                    </div>
                </div>
         );
