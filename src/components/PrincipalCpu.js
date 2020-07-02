@@ -698,6 +698,13 @@ class PrincipalCpu extends React.Component {
                             <div className="row">
                                 <img src={PCmessages} className="column" />
                                 <label className="column labelpersonalizada" ref="visualizadorINFO" onClick={this.openModal}>{this.state.visualizador.toString()}</label>
+                                <Modal show ={this.state.showModal} onHide={this.closeModal}>
+                                    <Modal.Header closeButton>
+                                    </Modal.Header>
+                                    <Modal.Body id="modalbody">
+                                        <InfoV node = {this.state.visualizador} onClose ={this.closeModal}></InfoV>
+                                    </Modal.Body>
+                                </Modal>
                                 
                             </div>
                         </div>
