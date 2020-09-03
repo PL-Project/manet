@@ -347,6 +347,7 @@ class Node {
         return this.ram;
     }
     setRam(ram){
+        add.Math.randomRegister();
         this.ram = ram;
     }
     getCPU(){
